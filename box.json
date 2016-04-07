@@ -1,9 +1,10 @@
 {
-    "name":"AppTemplate",
+    "name":"REST APP Template",
     "version":"1.0.0",
     "author":"",
-    "slug":"app-template",
-    "type":"",
+    "slug":"cbtemplate-rest",
+    "createPackageDirectory" : false,
+    "type":"mvc",
     "keywords":"",
     "homepage":"",
     "documentation":"",
@@ -13,23 +14,11 @@
     },
     "bugs":"",
     "shortDescription":"",
-    "license":[
-        {
-            "type":"Apache2",
-            "url":"http://www.apache.org/licenses/LICENSE-2.0.html"
-        }
-    ],
     "contributors":[
         
     ],
     "ignore":[
-        "**/.*",
-        "tests",
-        "*/.md"
     ],
-    "testbox":{
-        "runner":""
-    },
     "devDependencies":{
         "testbox":"2.3.0"
     },
@@ -38,6 +27,6 @@
         "testbox":"testbox"
     },
     "dependencies":{
-        "coldbox":"4.2.0+00002"
+        "coldbox":"4.2.0"
     }
 }
