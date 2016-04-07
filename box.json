@@ -1,0 +1,43 @@
+{
+    "name":"AppTemplate",
+    "version":"1.0.0",
+    "author":"",
+    "slug":"app-template",
+    "type":"",
+    "keywords":"",
+    "homepage":"",
+    "documentation":"",
+    "repository":{
+        "type":"",
+        "url":""
+    },
+    "bugs":"",
+    "shortDescription":"",
+    "license":[
+        {
+            "type":"Apache2",
+            "url":"http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    ],
+    "contributors":[
+        
+    ],
+    "ignore":[
+        "**/.*",
+        "tests",
+        "*/.md"
+    ],
+    "testbox":{
+        "runner":""
+    },
+    "devDependencies":{
+        "testbox":"2.3.0"
+    },
+    "installPaths":{
+        "coldbox":"coldbox",
+        "testbox":"testbox"
+    },
+    "dependencies":{
+        "coldbox":"4.2.0+00002"
+    }
+}
