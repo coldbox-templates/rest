@@ -52,7 +52,7 @@ component accessors="true" {
 	* @message Array or string of message to incorporate
 	*/
 	function addMessage( required any message ){
-		if( isSimpleValue( arguments.message ) ){ arguments.message = listToArray( arguments.message ); }
+		if( isSimpleValue( arguments.message ) ){ arguments.message = [ arguments.message ]; }
 		variables.messages.addAll( arguments.message );
 		return this;
 	}
