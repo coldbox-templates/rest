@@ -20,13 +20,13 @@
     "ignore":[
     ],
     "devDependencies":{
-        "testbox":"2.3.0"
+        "testbox":"^2.3.0"
     },
     "installPaths":{
         "coldbox":"coldbox",
         "testbox":"testbox"
     },
     "dependencies":{
-        "coldbox":"4.2.0"
+        "coldbox":"^4.2.0"
     }
 }
