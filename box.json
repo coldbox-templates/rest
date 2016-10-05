@@ -1,9 +1,9 @@
 {
     "name":"REST APP Template",
-    "version":"1.0.0",
+    "version":"1.1.0",
     "author":"",
     "slug":"cbtemplate-rest",
-    "createPackageDirectory" : false,
+    "createPackageDirectory":false,
     "type":"mvc",
     "keywords":"",
     "homepage":"",
@@ -18,15 +18,17 @@
         
     ],
     "ignore":[
+        
     ],
     "devDependencies":{
-        "testbox":"^2.3.0"
+        "testbox":"2.3.0"
     },
     "installPaths":{
         "coldbox":"coldbox",
         "testbox":"testbox"
     },
     "dependencies":{
-        "coldbox":"^4.2.0"
-    }
+        "coldbox":"4.2.0"
+    },
+    "location":"coldbox-templates/rest#v1.1.0"
 }
