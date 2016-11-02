@@ -1,19 +1,18 @@
 {
     "name":"REST APP Template",
-    "version":"1.1.0",
-    "author":"",
+    "version":"1.2.0",
+    "author":"Ortus Solutions",
     "slug":"cbtemplate-rest",
     "createPackageDirectory":false,
     "type":"mvc",
-    "keywords":"",
-    "homepage":"",
-    "documentation":"",
+    "homepage":"https://github.com/coldbox-templates/rest",
+    "documentation":"https://github.com/coldbox-templates/rest",
     "repository":{
-        "type":"",
-        "url":""
+        "type":"git",
+        "url":"https://github.com/coldbox-templates/rest"
     },
-    "bugs":"",
-    "shortDescription":"",
+    "bugs":"https://github.com/coldbox-templates/rest/issues",
+    "shortDescription":"This template gives you the base for building RESTFul web services with ColdBox",
     "contributors":[
         
     ],
@@ -30,5 +29,5 @@
     "dependencies":{
         "coldbox":"^4.3.0"
     },
-    "location":"coldbox-templates/rest#v1.1.0"
+    "location": "https://github.com/coldbox-templates/rest/archive/master.zip"
 }
