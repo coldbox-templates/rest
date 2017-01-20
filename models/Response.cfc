@@ -18,7 +18,6 @@ component accessors="true" {
 	property name="contentType" 	type="string"		default="";
 	property name="statusCode" 		type="numeric"		default="200";
 	property name="statusText" 		type="string"		default="OK";
-	property name="errorCode"		type="numeric"		default="0";
 	property name="responsetime"	type="numeric"		default="0";
 	property name="cachedResponse" 	type="boolean"		default="false";
 	property name="headers" 		type="array";
@@ -39,7 +38,6 @@ component accessors="true" {
 		variables.contentType 		= "";
 		variables.statusCode 		= 200;
 		variables.statusText 		=  "OK";
-		variables.errorCode			= 0;
 		variables.responsetime		= 0;
 		variables.cachedResponse 	= false;
 		variables.headers 			= [];
@@ -69,13 +67,20 @@ component accessors="true" {
 
 	/**
 	* Returns a standard response formatted data packet
+	* @param boolean reset 		Whether to remove the existing data marshalled from packet
 	*/
-	function getDataPacket() {
-		return {
+	function getDataPacket( boolean reset=false ) {
+
+		var packet = {
 			"error" 		 = variables.error ? true : false,
-			"errorcode"		 = variables.errorCode,
 			"messages" 		 = variables.messages,
 			"data" 			 = variables.data
 		};
+
+		if( ARGUMENTS.reset ){
+			structDelete( packet, "data" );
+		}
+
+		return packet;
 	}
 }

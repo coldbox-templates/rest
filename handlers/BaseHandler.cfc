@@ -8,6 +8,38 @@
 * to produce RESTFul responses.
 */
 component extends="coldbox.system.EventHandler"{
+	property name="METHODS";
+	property name="STATUS";
+
+	//Verb aliases - in case we are dealing with legacy browsers or servers ( e.g. IIS7 default )
+	METHODS = {
+		"HEAD":"HEAD",
+		"GET":"GET",
+		"POST":"POST",
+		"PATCH":"PATCH",
+		"PUT":"PUT",
+		"DELETE":"DELETE"
+	};
+	
+	//HTTP STATUS CODES
+	STATUS = {
+		"CREATED":201,
+		"ACCEPTED":202,
+		"SUCCESS":200,
+		"NO_CONTENT":204,
+		"RESET":205,
+		"PARTIAL_CONTENT":206,
+		"BAD_REQUEST":400,
+		"NOT_AUTHORIZED":401,
+		"NOT_FOUND":404,
+		"NOT_ALLOWED":405,
+		"NOT_ACCEPTABLE":406,
+		"TOO_MANY_REQUESTS":429,
+		"EXPECTATION_FAILED":417,
+		"INTERNAL_ERROR":500,
+		"NOT_IMPLEMENTED":501
+	};
+	
 
 	// OPTIONAL HANDLER PROPERTIES
 	this.prehandler_only 		= "";
@@ -30,23 +62,22 @@ component extends="coldbox.system.EventHandler"{
 			// prepare our response object
 			prc.response = getModel( "Response" );
 			// prepare argument execution
-			var args = { event = arguments.event, rc = arguments.rc, prc = arguments.prc };
-			structAppend( args, arguments.eventArguments );
+			var args = { event = ARGUMENTS.event, rc = ARGUMENTS.rc, prc = ARGUMENTS.prc };
+			structAppend( args, ARGUMENTS.eventArguments );
 			// Incoming Format Detection
 			if( structKeyExists( rc, "format") ){
 				prc.response.setFormat( rc.format );
 			}
 			// Execute action
-			arguments.targetAction( argumentCollection=args );
+			ARGUMENTS.targetAction( argumentCollection=args );
 		} catch( Any e ){
 			// Log Locally
 			log.error( "Error calling #event.getCurrentEvent()#: #e.message# #e.detail#", e );
 			// Setup General Error Response
 			prc.response
 				.setError( true )
-				.setErrorCode( e.errorCode eq 0 ? 500 : len( e.errorCode ) ? e.errorCode : 0 )
 				.addMessage( "General application error: #e.message#" )
-				.setStatusCode( 500 )
+				.setStatusCode( STATUS.INTERNAL_ERROR )
 				.setStatusText( "General application error" );
 			// Development additions
 			if( getSetting( "environment" ) eq "development" ){
@@ -64,11 +95,21 @@ component extends="coldbox.system.EventHandler"{
 		}
 		// end timer
 		prc.response.setResponseTime( getTickCount() - stime );
+
+		if( prc.response.getDataPacket().error ){
+
+			var responseData = prc.response.getDataPacket( reset=true )
+
+		} else {
+
+			var responseData = prc.response.getDataPacket().data;
+
+		}
 		
 		// Magical renderings
 		event.renderData( 
 			type		= prc.response.getFormat(),
-			data 		= prc.response.getDataPacket(),
+			data 		= responseData,
 			contentType = prc.response.getContentType(),
 			statusCode 	= prc.response.getStatusCode(),
 			statusText 	= prc.response.getStatusText(),
@@ -91,27 +132,28 @@ component extends="coldbox.system.EventHandler"{
 	*/
 	function onError( event, rc, prc, faultAction, exception, eventArguments ){
 		// Log Locally
-		log.error( "Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#", arguments.exception );
+		log.error( "Error in base handler (#ARGUMENTS.faultAction#): #ARGUMENTS.exception.message# #ARGUMENTS.exception.detail#", ARGUMENTS.exception );
+		
 		// Verify response exists, else create one
 		if( !structKeyExists( prc, "response" ) ){ prc.response = getModel( "Response" ); }
+		
 		// Setup General Error Response
 		prc.response
 			.setError( true )
-			.setErrorCode( 501 )
-			.addMessage( "Base Handler Application Error: #arguments.exception.message#" )
-			.setStatusCode( 500 )
+			.addMessage( "Base Handler Application Error: #ARGUMENTS.exception.message#" )
+			.setStatusCode( STATUS.INTERNAL_ERROR )
 			.setStatusText( "General application error" );
 		
 		// Development additions
 		if( getSetting( "environment" ) eq "development" ){
-			prc.response.addMessage( "Detail: #arguments.exception.detail#" )
-				.addMessage( "StackTrace: #arguments.exception.stacktrace#" );
+			prc.response.addMessage( "Detail: #ARGUMENTS.exception.detail#" )
+				.addMessage( "StackTrace: #ARGUMENTS.exception.stacktrace#" );
 		}
 		
 		// Render Error Out
 		event.renderData( 
 			type		= prc.response.getFormat(),
-			data 		= prc.response.getDataPacket(),
+			data 		= prc.response.getDataPacket( reset=true ),
 			contentType = prc.response.getContentType(),
 			statusCode 	= prc.response.getStatusCode(),
 			statusText 	= prc.response.getStatusText(),
@@ -125,18 +167,17 @@ component extends="coldbox.system.EventHandler"{
 	*/
 	function onInvalidHTTPMethod( event, rc, prc, faultAction, eventArguments ){
 		// Log Locally
-		log.warn( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
+		log.warn( "Invalid HTTP Method Execution of (#ARGUMENTS.faultAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 		// Setup Response
 		prc.response = getModel( "Response" )
 			.setError( true )
-			.setErrorCode( 405 )
-			.addMessage( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#" )
-			.setStatusCode( 405 )
+			.addMessage( "Invalid HTTP Method Execution of (#ARGUMENTS.faultAction#): #event.getHTTPMethod()#" )
+			.setStatusCode( STATUS.NOT_ALLOWED )
 			.setStatusText( "Invalid HTTP Method" );
 		// Render Error Out
 		event.renderData( 
 			type		= prc.response.getFormat(),
-			data 		= prc.response.getDataPacket(),
+			data 		= prc.response.getDataPacket( reset=true ),
 			contentType = prc.response.getContentType(),
 			statusCode 	= prc.response.getStatusCode(),
 			statusText 	= prc.response.getStatusText(),
@@ -144,5 +185,161 @@ component extends="coldbox.system.EventHandler"{
 			isBinary 	= prc.response.getBinary()
 		);
 	}
+
+
+	/**
+	* Invalid method execution
+	**/
+	function onMissingAction(event,rc,prc,missingAction,eventArguments){
+		// Log Locally
+		log.warn( "Invalid HTTP Method Execution of (#ARGUMENTS.missingAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
+		// Setup Response
+		prc.response = getModel( "Response" )
+			.setError( true )
+			.addMessage( "Action '#arguments.missingAction#' could not be found" )
+			.setStatusCode( STATUS.NOT_ALLOWED )
+			.setStatusText( "Invalid Action" );
+		// Render Error Out
+		event.renderData( 
+			type		= prc.response.getFormat(),
+			data 		= prc.response.getDataPacket( reset=true ),
+			contentType = prc.response.getContentType(),
+			statusCode 	= prc.response.getStatusCode(),
+			statusText 	= prc.response.getStatusText(),
+			location 	= prc.response.getLocation(),
+			isBinary 	= prc.response.getBinary()
+		);			
+	}
+
+
+	/**
+	* Utility methods for RESTful responses
+	**/
+
+	/**
+	* Utility function for miscellaneous 404's
+	**/
+	public function fourOhFour( event, rc, prc ){
+		
+		if( !structKeyExists( prc, "response" ) ){
+			prc.response = getModel( "Response" );
+		}
+
+		prc.response.setError( true )
+			.setStatusCode( STATUS.NOT_FOUND )
+			.setStatusText( "Not Found" )
+			.addMessage( "The object requested could not be found" )
+	}
+
+	function onExpectationFailed( 
+		event=getRequestContext(), 
+		rc=getRequestCollection(), 
+		prc=getRequestCollection(private=true) 
+	){
+		if( !structKeyExists( prc, "response" ) ){
+			prc.response = getModel( "Response" );
+		}
+
+		prc.response.setError( true )
+			.setStatusCode( STATUS.EXPECTATION_FAILED )
+			.setStatusText( "Expectation Failed" )
+			.addMessage( "An expectation for the request failed. Could not proceed" ) 			
+	}
+
+	/**
+	* Render the failure of authorization
+	**/
+	function onAuthorizationFailure( 
+		event=getRequestContext(), 
+		rc=getRequestCollection(), 
+		prc=getRequestCollection(private=true), 
+		abort=false 
+	){
+		if( !structKeyExists( prc, "response" ) ){
+			prc.response = getModel( "Response" );
+		}
+
+		Log.warn( "Authorization Failure", getHTTPRequestData() );
+
+		prc.response.setError( true )
+			.setStatusCode( STATUS.NOT_AUTHORIZED )
+			.setStatusText( "Unauthorized Resource" )
+			.addMessage( "Your permissions do not allow this operation" ) 
+
+		/**
+		* When you need a really hard stop to prevent further execution ( use as last resort )
+		**/
+		if( ARGUMENTS.abort ){
+
+			cfheader(
+	        	name = "Content-Type",
+	        	value = "application/json"
+		    );
+			
+			cfheader(
+	        	statusCode = "#STATUS.NOT_AUTHORIZED#",
+	        	statusText = "Not Authorized"
+		    );
+
+		    var response = prc.response.getDataPacket( reset=true );
+
+			writeOutput( serializeJSON( response ) );
+			flush;
+			abort;	
+		}
+	}
+
+	/**
+	* Throttles the number of requests for a resource
+	* Logs out the user on failure and displays the limit message
+	**/
+	public function throttleRequests( 
+		max=5, 
+		roles, 
+		event=getRequestContext()
+	){
+		var rc=getRequestCollection();
+		var prc = event.getCollection( private=true );
+		// Exit out if sessions are not enabled
+		if( !APPLICATION.getApplicationSettings().sessionManagement ) return;
+		
+		var request_key = lCase( REReplace( event.getCurrentRoutedURL(), '[^A-Za-z0-9]', '_', 'all' ) );
+
+		if( isNull( ARGUMENTS.roles ) || isUserInAnyRole( roles ) ){
+
+			if( !structKeyExists( session, 'requestThrottle' ) ) session.requestThrottle={};
+			
+			if( !structKeyExists( session.requestThrottle, request_key ) );
+			
+			session.requestThrottle[request_key]=0;
+			
+			session.requestThrottle[request_key]++;
+
+			if( session.requestThrottle[request_key] > arguments.max ){
+
+				cflogout();
+
+				prc.response.setError( true )
+					.addMessage( "You have exceeded the allowed number of requests for this resource" );
+				
+				cfheader(
+		        	name = "Content-Type",
+		        	value = "application/json"
+			    );
+				
+				cfheader(
+		        	statusCode = "#STATUS.TOO_MANY_REQUESTS#",
+		        	statusText = "Resource Request Limit Exceeded"
+			    );
+
+			    writeOutput( serializeJSON( prc.response.getDataPacket( reset=true ) ) );
+
+				// hard exit, to prevent further execution
+				flush;
+				abort;
+			}
+		}
+	}
+
 
 }

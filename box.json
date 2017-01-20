@@ -29,5 +29,5 @@
     "dependencies":{
         "coldbox":"^4.3.0"
     },
-    "location": "https://github.com/coldbox-templates/rest/archive/master.zip"
+    "location":"https://github.com/coldbox-templates/rest/archive/master.zip"
 }
