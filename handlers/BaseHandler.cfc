@@ -196,7 +196,7 @@ component extends="coldbox.system.EventHandler"{
 		// Setup Response
 		prc.response = getModel( "Response" )
 			.setError( true )
-			.addMessage( "Action '#arguments.missingAction#' could not be found" )
+			.addMessage( "Action '#ARGUMENTS.missingAction#' could not be found" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
 			.setStatusText( "Invalid Action" );
 		// Render Error Out
@@ -315,7 +315,7 @@ component extends="coldbox.system.EventHandler"{
 			
 			session.requestThrottle[request_key]++;
 
-			if( session.requestThrottle[request_key] > arguments.max ){
+			if( session.requestThrottle[request_key] > ARGUMENTS.max ){
 
 				cflogout();
 
