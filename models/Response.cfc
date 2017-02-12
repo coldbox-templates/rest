@@ -5,7 +5,7 @@
 * ********************************************************************************
 * HTTP Response model, spice up as needed
 */
-component accessors="true" {
+component accessors="true" scope="REQUEST" {
 
 	property name="format" 			type="string" 		default="json";
 	property name="data" 			type="any"			default="";
@@ -18,7 +18,6 @@ component accessors="true" {
 	property name="contentType" 	type="string"		default="";
 	property name="statusCode" 		type="numeric"		default="200";
 	property name="statusText" 		type="string"		default="OK";
-	property name="errorCode"		type="numeric"		default="0";
 	property name="responsetime"	type="numeric"		default="0";
 	property name="cachedResponse" 	type="boolean"		default="false";
 	property name="headers" 		type="array";
@@ -29,7 +28,7 @@ component accessors="true" {
 	Response function init(){
 		// Init properties
 		variables.format 			= "json";
-		variables.data 				= "";
+		variables.data 				= {};
 		variables.error 			= false;
 		variables.binary 			= false;
 		variables.messages 			= [];
@@ -39,7 +38,6 @@ component accessors="true" {
 		variables.contentType 		= "";
 		variables.statusCode 		= 200;
 		variables.statusText 		=  "OK";
-		variables.errorCode			= 0;
 		variables.responsetime		= 0;
 		variables.cachedResponse 	= false;
 		variables.headers 			= [];
@@ -49,7 +47,7 @@ component accessors="true" {
 
 	/**
 	* Add some messages
-	* @message Array or string of message to incorporate
+	* @param any message Array or string of message to incorporate
 	*/
 	function addMessage( required any message ){
 		if( isSimpleValue( arguments.message ) ){ arguments.message = [ arguments.message ]; }
@@ -59,8 +57,8 @@ component accessors="true" {
 
 	/**
 	* Add a header
-	* @name header name
-	* @value header value
+	* @param string name 	The header name ( e.g. "Content-Type" )
+	* @value string value 	The header value ( e.g. "application/json" )
 	*/
 	function addHeader( required string name, required string value ){
 		arrayAppend( variables.headers, { name=arguments.name, value=arguments.value } );
@@ -69,13 +67,20 @@ component accessors="true" {
 
 	/**
 	* Returns a standard response formatted data packet
+	* @param boolean reset 		Whether to remove the existing data marshalled from packet
 	*/
-	function getDataPacket() {
-		return {
+	function getDataPacket( boolean reset=false ) {
+
+		var packet = {
 			"error" 		 = variables.error ? true : false,
-			"errorcode"		 = variables.errorCode,
 			"messages" 		 = variables.messages,
 			"data" 			 = variables.data
 		};
+
+		if( ARGUMENTS.reset ){
+			structDelete( packet, "data" );
+		}
+
+		return packet;
 	}
 }

@@ -37,13 +37,15 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 			beforeEach(function( currentSpec ){
 				// Setup as a new ColdBox request, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
 				setup();
+				// Reset our scoped response object from the previous request
+				structDelete( REQUEST, "wirebox:response" );
+				
 			});
 
 			it( "can handle invalid HTTP Calls", function(){
 				var event = execute( event="echo.onInvalidHTTPMethod", renderResults = true );
 				var response = event.getPrivateValue( "response" );
 				expect(	response.getError() ).toBeTrue();
-				expect(	response.getErrorCode() ).toBe( 405 );
 				expect(	response.getStatusCode() ).toBe( 405 );
 			});
 
@@ -56,15 +58,15 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 				
 				var response = event.getPrivateValue( "response" );
 				expect(	response.getError() ).toBeTrue();
-				expect(	response.getErrorCode() ).toBe( 501 );
 				expect(	response.getStatusCode() ).toBe( 500 );
 			});
 
 			it( "can handle an echo", function(){
-				var event 		= execute( event="echo.index" );
+				var event 		= execute( route="Echo.index" );
 				var response 	= event.getPrivateValue( "response" );
 				expect(	response.getError() ).toBeFalse();
-				expect(	response.getData() ).toBe( "Welcome to my ColdBox RESTFul Service" );
+				expect( response.getData() ).toHaveKey( "echo" );
+				expect(	response.getData().echo ).toBe( "Welcome to my ColdBox RESTFul Service" );
 			});
 
 
