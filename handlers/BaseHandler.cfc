@@ -8,6 +8,8 @@
 * to produce RESTFul responses.
 */
 component extends="coldbox.system.EventHandler"{
+	property name="APIResponse" inject="Response";
+	//Pseudo "constants" used in API Response/Method parsing
 	property name="METHODS";
 	property name="STATUS";
 
@@ -49,18 +51,26 @@ component extends="coldbox.system.EventHandler"{
 	this.aroundHandler_only 	= "";
 	this.aroundHandler_except 	= "";		
 
-	// REST Allowed HTTP Methods Ex: this.allowedMethods = {delete='POST,DELETE',index='GET'}
-	this.allowedMethods = {};
+	// REST Allowed HTTP Methods Ex: this.allowedMethods = {delete=METHODS.DELETE,index=METHODS.GET}
+	this.allowedMethods = {
+		"index":METHODS.GET,
+		"get":METHODS.GET,
+		"list":METHODS.GET,
+		"update":METHODS.PUT & "," & METHODS.PATCH,
+		"delete":METHODS.DELETE
+	};
 	
 	/**
 	* Around handler for all actions it inherits
 	*/
 	function aroundHandler( event, rc, prc, targetAction, eventArguments ){
+
+		//Attempt to render our target action. If it fails, provide a consistent API response
 		try{
 			// start a resource timer
 			var stime = getTickCount();
 			// prepare our response object
-			prc.response = getModel( "Response" );
+			prc.response = VARIABLES.APIResponse;
 			// prepare argument execution
 			var args = { event = ARGUMENTS.event, rc = ARGUMENTS.rc, prc = ARGUMENTS.prc };
 			structAppend( args, ARGUMENTS.eventArguments );
@@ -96,10 +106,12 @@ component extends="coldbox.system.EventHandler"{
 		// end timer
 		prc.response.setResponseTime( getTickCount() - stime );
 
+		//If we have an error flag, render our messages and omit any marshalled data
 		if( prc.response.getDataPacket().error ){
 
 			var responseData = prc.response.getDataPacket( reset=true )
 
+		//If no error flag, render our marshalled data
 		} else {
 
 			var responseData = prc.response.getDataPacket().data;
@@ -135,7 +147,7 @@ component extends="coldbox.system.EventHandler"{
 		log.error( "Error in base handler (#ARGUMENTS.faultAction#): #ARGUMENTS.exception.message# #ARGUMENTS.exception.detail#", ARGUMENTS.exception );
 		
 		// Verify response exists, else create one
-		if( !structKeyExists( prc, "response" ) ){ prc.response = getModel( "Response" ); }
+		if( !structKeyExists( prc, "response" ) ){ prc.response = VARIABLES.APIResponse; }
 		
 		// Setup General Error Response
 		prc.response
@@ -150,7 +162,7 @@ component extends="coldbox.system.EventHandler"{
 				.addMessage( "StackTrace: #ARGUMENTS.exception.stacktrace#" );
 		}
 		
-		// Render Error Out
+		// Render Error Out per the conventions of our aroundHandler() error
 		event.renderData( 
 			type		= prc.response.getFormat(),
 			data 		= prc.response.getDataPacket( reset=true ),
@@ -169,7 +181,7 @@ component extends="coldbox.system.EventHandler"{
 		// Log Locally
 		log.warn( "Invalid HTTP Method Execution of (#ARGUMENTS.faultAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 		// Setup Response
-		prc.response = getModel( "Response" )
+		prc.response = VARIABLES.APIResponse
 			.setError( true )
 			.addMessage( "Invalid HTTP Method Execution of (#ARGUMENTS.faultAction#): #event.getHTTPMethod()#" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -194,7 +206,7 @@ component extends="coldbox.system.EventHandler"{
 		// Log Locally
 		log.warn( "Invalid HTTP Method Execution of (#ARGUMENTS.missingAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 		// Setup Response
-		prc.response = getModel( "Response" )
+		prc.response = VARIABLES.APIResponse
 			.setError( true )
 			.addMessage( "Action '#ARGUMENTS.missingAction#' could not be found" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -222,7 +234,7 @@ component extends="coldbox.system.EventHandler"{
 	public function fourOhFour( event, rc, prc ){
 		
 		if( !structKeyExists( prc, "response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = VARIABLES.APIResponse;
 		}
 
 		prc.response.setError( true )
@@ -231,13 +243,16 @@ component extends="coldbox.system.EventHandler"{
 			.addMessage( "The object requested could not be found" )
 	}
 
+	/**
+	* Utility method for when an expectation of the request failes ( e.g. an expected paramter is not provided )
+	**/
 	function onExpectationFailed( 
 		event=getRequestContext(), 
 		rc=getRequestCollection(), 
-		prc=getRequestCollection(private=true) 
+		prc=getRequestCollection( private=true ) 
 	){
 		if( !structKeyExists( prc, "response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = VARIABLES.APIResponse;
 		}
 
 		prc.response.setError( true )
@@ -247,16 +262,16 @@ component extends="coldbox.system.EventHandler"{
 	}
 
 	/**
-	* Render the failure of authorization
+	* Utility method to render a failure of authorization on any resource
 	**/
 	function onAuthorizationFailure( 
 		event=getRequestContext(), 
 		rc=getRequestCollection(), 
-		prc=getRequestCollection(private=true), 
+		prc=getRequestCollection( private=true ), 
 		abort=false 
 	){
 		if( !structKeyExists( prc, "response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = VARIABLES.APIResponse;
 		}
 
 		Log.warn( "Authorization Failure", getHTTPRequestData() );
