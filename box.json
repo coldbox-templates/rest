@@ -1,7 +1,8 @@
 {
     "name":"REST APP Template",
-    "version":"1.2.0",
-    "author":"Ortus Solutions",
+    "version":"1.4.0",
+    "location":"https://github.com/coldbox-templates/rest/archive/v1.4.0.zip",
+    "author":"You",
     "slug":"cbtemplate-rest",
     "createPackageDirectory":false,
     "type":"mvc",
@@ -29,5 +30,8 @@
     "dependencies":{
         "coldbox":"^4.3.0"
     },
-    "location":"https://github.com/coldbox-templates/rest/archive/master.zip"
+    "scripts":{
+        "postVersion":"package set location='https://github.com/coldbox-templates/rest/archive/v`package version`.zip'",
+        "postPublish":"!git push --follow-tags"
+    }
 }
