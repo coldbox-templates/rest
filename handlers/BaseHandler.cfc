@@ -104,7 +104,7 @@ component extends="coldbox.system.EventHandler"{
 		prc.response.setResponseTime( getTickCount() - stime );
 		
 		// Get response data
-		var responseData = prc.response.getDataPacket().data;
+		var responseData = prc.response.getDataPacket();
 		// If we have an error flag, render our messages and omit any marshalled data
 		if( prc.response.getError() ){
 			responseData = prc.response.getDataPacket( reset=true );
