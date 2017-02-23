@@ -18,14 +18,16 @@
         
     ],
     "ignore":[
-        
+        "**/.*"
     ],
     "devDependencies":{
-        "testbox":"^2.3.0"
+        "testbox":"^2.3.0",
+        "relax":"^2.2.0+00032"
     },
     "installPaths":{
         "coldbox":"coldbox",
-        "testbox":"testbox"
+        "testbox":"testbox",
+        "relax":"modules/relax"
     },
     "dependencies":{
         "coldbox":"^4.3.0"
