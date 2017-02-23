@@ -18,7 +18,7 @@
         
     ],
     "ignore":[
-        "**/.*"
+        
     ],
     "devDependencies":{
         "testbox":"^2.3.0",
@@ -27,10 +27,12 @@
     "installPaths":{
         "coldbox":"coldbox",
         "testbox":"testbox",
-        "relax":"modules/relax"
+        "relax":"modules/relax",
+        "cbswagger":"modules/cbswagger"
     },
     "dependencies":{
-        "coldbox":"^4.3.0"
+        "coldbox":"^4.3.0",
+        "cbswagger":"^1.0.3+29"
     },
     "scripts":{
         "postVersion":"package set location='https://github.com/coldbox-templates/rest/archive/v`package version`.zip'",
