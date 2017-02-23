@@ -43,7 +43,6 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 				var event = execute( event="echo.onInvalidHTTPMethod", renderResults = true );
 				var response = event.getPrivateValue( "response" );
 				expect(	response.getError() ).toBeTrue();
-				expect(	response.getErrorCode() ).toBe( 405 );
 				expect(	response.getStatusCode() ).toBe( 405 );
 			});
 
@@ -56,15 +55,23 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 				
 				var response = event.getPrivateValue( "response" );
 				expect(	response.getError() ).toBeTrue();
-				expect(	response.getErrorCode() ).toBe( 501 );
 				expect(	response.getStatusCode() ).toBe( 500 );
 			});
 
 			it( "can handle an echo", function(){
-				var event 		= execute( event="echo.index" );
+				prepareMock( getRequestContext() ).$( "getHTTPMethod", "GET" );
+				var event 		= execute( route="echo/index" );
 				var response 	= event.getPrivateValue( "response" );
 				expect(	response.getError() ).toBeFalse();
 				expect(	response.getData() ).toBe( "Welcome to my ColdBox RESTFul Service" );
+			});
+
+			it( "can handle missing actions", function(){
+				prepareMock( getRequestContext() ).$( "getHTTPMethod", "GET" );
+				var event 		= execute( route="echo/bogus" );
+				var response 	= event.getPrivateValue( "response" );
+				expect(	response.getError() ).tobeTrue();
+				expect(	response.getStatusCode() ).toBe( 405 );
 			});
 
 
