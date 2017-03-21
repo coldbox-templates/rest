@@ -3,7 +3,7 @@
 * Copyright 2005-2007 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
 * www.ortussolutions.com
 * ********************************************************************************
-* HTTP Response model, spice up as needed
+* API Response object, customize as needed
 */
 component accessors="true" scope="REQUEST" {
 
@@ -25,7 +25,7 @@ component accessors="true" scope="REQUEST" {
 	/**
 	* Constructor
 	*/
-	Response function init(){
+	APIResponse function init(){
 		// Init properties
 		variables.format 			= "json";
 		variables.data 				= {};
@@ -49,7 +49,7 @@ component accessors="true" scope="REQUEST" {
 	* Add some messages
 	* @param any message Array or string of message to incorporate
 	*/
-	function addMessage( required any message ){
+	APIResponse function addMessage( required any message ){
 		if( isSimpleValue( arguments.message ) ){ arguments.message = [ arguments.message ]; }
 		variables.messages.addAll( arguments.message );
 		return this;
@@ -60,7 +60,7 @@ component accessors="true" scope="REQUEST" {
 	* @param string name 	The header name ( e.g. "Content-Type" )
 	* @value string value 	The header value ( e.g. "application/json" )
 	*/
-	function addHeader( required string name, required string value ){
+	APIResponse function addHeader( required string name, required string value ){
 		arrayAppend( variables.headers, { name=arguments.name, value=arguments.value } );
 		return this;
 	}
@@ -69,7 +69,7 @@ component accessors="true" scope="REQUEST" {
 	* Returns a standard response formatted data packet
 	* @param boolean reset 		Whether to remove the existing data marshalled from packet
 	*/
-	function getDataPacket( boolean reset=false ) {
+	struct function getDataPacket( boolean reset=false ) {
 
 		var packet = {
 			"error" 		 = variables.error ? true : false,

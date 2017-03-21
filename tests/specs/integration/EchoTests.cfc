@@ -38,7 +38,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 				// Setup as a new ColdBox request, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
 				setup();
 				// Reset our scoped response object from the previous request
-				structDelete( REQUEST, "wirebox:response" );
+				structDelete( REQUEST, "wirebox:apiresponse" );
 				
 			});
 

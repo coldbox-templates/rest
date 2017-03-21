@@ -8,7 +8,6 @@
 * to produce RESTFul responses.
 */
 component extends="coldbox.system.EventHandler"{
-	property name="APIResponse" inject="Response";
 	//Pseudo "constants" used in API Response/Method parsing
 	property name="METHODS";
 	property name="STATUS";
@@ -59,7 +58,14 @@ component extends="coldbox.system.EventHandler"{
 		"update":METHODS.PUT & "," & METHODS.PATCH,
 		"delete":METHODS.DELETE
 	};
-	
+
+	/**
+	* Provider for API Response Object
+	* Note: The response object is a transient, but is scoped as a "singleton" in to the request. 
+	* Do not inject this as a property or it will be come a true singleton when handler caching is enabled 
+	**/
+	package APIResponse function getAPIResponse() provider="APIResponse"{}
+
 	/**
 	* Around handler for all actions it inherits
 	*/
@@ -70,7 +76,7 @@ component extends="coldbox.system.EventHandler"{
 			// start a resource timer
 			var stime = getTickCount();
 			// prepare our response object
-			prc.response = VARIABLES.APIResponse;
+			prc.response = getAPIResponse();
 			// prepare argument execution
 			var args = { event = ARGUMENTS.event, rc = ARGUMENTS.rc, prc = ARGUMENTS.prc };
 			structAppend( args, ARGUMENTS.eventArguments );
@@ -147,7 +153,7 @@ component extends="coldbox.system.EventHandler"{
 		log.error( "Error in base handler (#ARGUMENTS.faultAction#): #ARGUMENTS.exception.message# #ARGUMENTS.exception.detail#", ARGUMENTS.exception );
 		
 		// Verify response exists, else create one
-		if( !structKeyExists( prc, "response" ) ){ prc.response = VARIABLES.APIResponse; }
+		if( !structKeyExists( prc, "response" ) ){ prc.response = getAPIResponse(); }
 		
 		// Setup General Error Response
 		prc.response
@@ -181,7 +187,7 @@ component extends="coldbox.system.EventHandler"{
 		// Log Locally
 		log.warn( "Invalid HTTP Method Execution of (#ARGUMENTS.faultAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 		// Setup Response
-		prc.response = VARIABLES.APIResponse
+		prc.response = getAPIResponse()
 			.setError( true )
 			.addMessage( "Invalid HTTP Method Execution of (#ARGUMENTS.faultAction#): #event.getHTTPMethod()#" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -206,7 +212,7 @@ component extends="coldbox.system.EventHandler"{
 		// Log Locally
 		log.warn( "Invalid HTTP Method Execution of (#ARGUMENTS.missingAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 		// Setup Response
-		prc.response = VARIABLES.APIResponse
+		prc.response = getAPIResponse()
 			.setError( true )
 			.addMessage( "Action '#ARGUMENTS.missingAction#' could not be found" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -234,7 +240,7 @@ component extends="coldbox.system.EventHandler"{
 	public function fourOhFour( event, rc, prc ){
 		
 		if( !structKeyExists( prc, "response" ) ){
-			prc.response = VARIABLES.APIResponse;
+			prc.response = getAPIResponse();
 		}
 
 		prc.response.setError( true )
@@ -252,7 +258,7 @@ component extends="coldbox.system.EventHandler"{
 		prc=getRequestCollection( private=true ) 
 	){
 		if( !structKeyExists( prc, "response" ) ){
-			prc.response = VARIABLES.APIResponse;
+			prc.response = getAPIResponse();
 		}
 
 		prc.response.setError( true )
@@ -271,7 +277,7 @@ component extends="coldbox.system.EventHandler"{
 		abort=false 
 	){
 		if( !structKeyExists( prc, "response" ) ){
-			prc.response = VARIABLES.APIResponse;
+			prc.response = getAPIResponse();
 		}
 
 		Log.warn( "Authorization Failure", getHTTPRequestData() );
@@ -355,6 +361,5 @@ component extends="coldbox.system.EventHandler"{
 			}
 		}
 	}
-
 
 }
