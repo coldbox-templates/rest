@@ -1,4 +1,4 @@
-﻿/*******************************************************************************
+/*******************************************************************************
 *	Integration Test as BDD (CF10+ or Railo 4.1 Plus)
 *
 *	Extends the integration class: coldbox.system.testing.BaseTestCase
@@ -62,11 +62,19 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 			});
 
 			it( "can handle an echo", function(){
-				var event 		= execute( route="Echo.index" );
+				prepareMock( getRequestContext() ).$( "getHTTPMethod", "GET" );
+				var event 		= execute( route="echo/index" );
 				var response 	= event.getPrivateValue( "response" );
 				expect(	response.getError() ).toBeFalse();
 				expect( response.getData() ).toHaveKey( "echo" );
-				expect(	response.getData().echo ).toBe( "Welcome to my ColdBox RESTFul Service" );
+			});
+
+			it( "can handle missing actions", function(){
+				prepareMock( getRequestContext() ).$( "getHTTPMethod", "GET" );
+				var event 		= execute( route="echo/bogus" );
+				var response 	= event.getPrivateValue( "response" );
+				expect(	response.getError() ).tobeTrue();
+				expect(	response.getStatusCode() ).toBe( 405 );
 			});
 
 

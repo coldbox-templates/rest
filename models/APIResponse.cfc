@@ -3,9 +3,9 @@
 * Copyright 2005-2007 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
 * www.ortussolutions.com
 * ********************************************************************************
-* API Response object, customize as needed
+* HTTP Response model, spice up as needed and stored in the request scope
 */
-component accessors="true" scope="REQUEST" {
+component accessors="true" scope="request" {
 
 	property name="format" 			type="string" 		default="json";
 	property name="data" 			type="any"			default="";
@@ -47,7 +47,7 @@ component accessors="true" scope="REQUEST" {
 
 	/**
 	* Add some messages
-	* @param any message Array or string of message to incorporate
+	* @message Array or string of message to incorporate
 	*/
 	APIResponse function addMessage( required any message ){
 		if( isSimpleValue( arguments.message ) ){ arguments.message = [ arguments.message ]; }
@@ -57,8 +57,8 @@ component accessors="true" scope="REQUEST" {
 
 	/**
 	* Add a header
-	* @param string name 	The header name ( e.g. "Content-Type" )
-	* @value string value 	The header value ( e.g. "application/json" )
+	* @name The header name ( e.g. "Content-Type" )
+	* @value The header value ( e.g. "application/json" )
 	*/
 	APIResponse function addHeader( required string name, required string value ){
 		arrayAppend( variables.headers, { name=arguments.name, value=arguments.value } );
@@ -67,18 +67,18 @@ component accessors="true" scope="REQUEST" {
 
 	/**
 	* Returns a standard response formatted data packet
-	* @param boolean reset 		Whether to remove the existing data marshalled from packet
+	* @reset Reset the 'data' element of the original data packet
 	*/
-	struct function getDataPacket( boolean reset=false ) {
-
+	function getDataPacket( boolean reset=false ) {
 		var packet = {
 			"error" 		 = variables.error ? true : false,
 			"messages" 		 = variables.messages,
 			"data" 			 = variables.data
 		};
 
-		if( ARGUMENTS.reset ){
-			structDelete( packet, "data" );
+		// Are we reseting the data packet
+		if( arguments.reset ){
+			packet.data = {};
 		}
 
 		return packet;

@@ -26,7 +26,7 @@
 			//Extension Points
 			applicationHelper 			= "",
 			viewsHelper					= "",
-			modulesExternalLocation		= [ "modules_app" ],
+			modulesExternalLocation		= [],
 			viewsExternalLocation		= "",
 			layoutsExternalLocation 	= "",
 			handlersExternalLocation  	= "",

@@ -1,0 +1,4 @@
+# Dependencies Ignored
+coldbox/*
+testbox/*
+modules/*

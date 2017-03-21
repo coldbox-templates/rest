@@ -1,7 +1,7 @@
 {
     "name":"REST APP Template",
-    "version":"1.4.0",
-    "location":"https://github.com/coldbox-templates/rest/archive/v1.4.0.zip",
+    "version":"2.0.0",
+    "location":"https://github.com/coldbox-templates/rest/archive/v2.0.0.zip",
     "author":"You",
     "slug":"cbtemplate-rest",
     "createPackageDirectory":false,
@@ -21,14 +21,18 @@
         
     ],
     "devDependencies":{
-        "testbox":"^2.3.0"
+        "testbox":"^2.3.0",
+        "relax":"^2.2.0+00032"
     },
     "installPaths":{
         "coldbox":"coldbox",
-        "testbox":"testbox"
+        "testbox":"testbox",
+        "relax":"modules/relax",
+        "cbswagger":"modules/cbswagger"
     },
     "dependencies":{
-        "coldbox":"^4.3.0"
+        "coldbox":"^4.3.0",
+        "cbswagger":"^1.0.3+29"
     },
     "scripts":{
         "postVersion":"package set location='https://github.com/coldbox-templates/rest/archive/v`package version`.zip'",
