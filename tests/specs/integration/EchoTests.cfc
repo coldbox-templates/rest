@@ -1,4 +1,4 @@
-﻿/*******************************************************************************
+/*******************************************************************************
 *	Integration Test as BDD (CF10+ or Railo 4.1 Plus)
 *
 *	Extends the integration class: coldbox.system.testing.BaseTestCase
@@ -37,6 +37,9 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 			beforeEach(function( currentSpec ){
 				// Setup as a new ColdBox request, VERY IMPORTANT. ELSE EVERYTHING LOOKS LIKE THE SAME REQUEST.
 				setup();
+				// Reset our scoped response object from the previous request
+				structDelete( REQUEST, "wirebox:apiresponse" );
+				
 			});
 
 			it( "can handle invalid HTTP Calls", function(){
@@ -63,7 +66,7 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 				var event 		= execute( route="echo/index" );
 				var response 	= event.getPrivateValue( "response" );
 				expect(	response.getError() ).toBeFalse();
-				expect(	response.getData() ).toBe( "Welcome to my ColdBox RESTFul Service" );
+				expect( response.getData() ).toHaveKey( "echo" );
 			});
 
 			it( "can handle missing actions", function(){

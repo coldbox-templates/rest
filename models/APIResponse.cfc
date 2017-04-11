@@ -5,7 +5,7 @@
 * ********************************************************************************
 * HTTP Response model, spice up as needed and stored in the request scope
 */
-component accessors="true"{
+component accessors="true" scope="request" {
 
 	property name="format" 			type="string" 		default="json";
 	property name="data" 			type="any"			default="";
@@ -25,7 +25,7 @@ component accessors="true"{
 	/**
 	* Constructor
 	*/
-	Response function init(){
+	APIResponse function init(){
 		// Init properties
 		variables.format 			= "json";
 		variables.data 				= {};
@@ -49,7 +49,7 @@ component accessors="true"{
 	* Add some messages
 	* @message Array or string of message to incorporate
 	*/
-	function addMessage( required any message ){
+	APIResponse function addMessage( required any message ){
 		if( isSimpleValue( arguments.message ) ){ arguments.message = [ arguments.message ]; }
 		variables.messages.addAll( arguments.message );
 		return this;
@@ -60,7 +60,7 @@ component accessors="true"{
 	* @name The header name ( e.g. "Content-Type" )
 	* @value The header value ( e.g. "application/json" )
 	*/
-	function addHeader( required string name, required string value ){
+	APIResponse function addHeader( required string name, required string value ){
 		arrayAppend( variables.headers, { name=arguments.name, value=arguments.value } );
 		return this;
 	}

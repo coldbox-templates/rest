@@ -8,7 +8,6 @@
 * to produce RESTFul responses.
 */
 component extends="coldbox.system.EventHandler"{
-
 	// Pseudo "constants" used in API Response/Method parsing
 	property name="METHODS";
 	property name="STATUS";
@@ -58,16 +57,25 @@ component extends="coldbox.system.EventHandler"{
 		"update" 	: METHODS.PUT & "," & METHODS.PATCH,
 		"delete" 	: METHODS.DELETE
 	};
-	
+
+	/**
+	* Provider for API Response Object
+	* Note: The response object is a transient, but is scoped as a "singleton" in to the request. 
+	* Do not inject this as a property or it will be come a true singleton when handler caching is enabled 
+	**/
+	package APIResponse function getAPIResponse() provider="APIResponse"{}
+
 	/**
 	* Around handler for all actions it inherits
 	*/
 	function aroundHandler( event, rc, prc, targetAction, eventArguments ){
+
+		//Attempt to render our target action. If it fails, provide a consistent API response
 		try{
 			// start a resource timer
 			var stime = getTickCount();
 			// prepare our response object
-			prc.response = getModel( "Response" );
+			prc.response = getAPIResponse();
 			// prepare argument execution
 			var args = { event = arguments.event, rc = arguments.rc, prc = arguments.prc };
 			structAppend( args, arguments.eventArguments );
@@ -137,8 +145,10 @@ component extends="coldbox.system.EventHandler"{
 	function onError( event, rc, prc, faultAction, exception, eventArguments ){
 		// Log Locally
 		log.error( "Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#", arguments.exception );
+		
 		// Verify response exists, else create one
 		if( !structKeyExists( prc, "response" ) ){ prc.response = getModel( "Response" ); }
+		
 		// Setup General Error Response
 		prc.response
 			.setError( true )
@@ -152,7 +162,7 @@ component extends="coldbox.system.EventHandler"{
 				.addMessage( "StackTrace: #arguments.exception.stacktrace#" );
 		}
 		
-		// Render Error Out
+		// Render Error Out per the conventions of our aroundHandler() error
 		event.renderData( 
 			type		= prc.response.getFormat(),
 			data 		= prc.response.getDataPacket( reset=true ),
@@ -171,7 +181,7 @@ component extends="coldbox.system.EventHandler"{
 		// Log Locally
 		log.warn( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 		// Setup Response
-		prc.response = getModel( "Response" )
+		prc.response = getAPIResponse()
 			.setError( true )
 			.addMessage( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -195,7 +205,7 @@ component extends="coldbox.system.EventHandler"{
 		// Log Locally
 		log.warn( "Invalid HTTP Method Execution of (#arguments.missingAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 		// Setup Response
-		prc.response = getModel( "Response" )
+		prc.response = getAPIResponse()
 			.setError( true )
 			.addMessage( "Action '#arguments.missingAction#' could not be found" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -211,8 +221,12 @@ component extends="coldbox.system.EventHandler"{
 			isBinary 	= prc.response.getBinary()
 		);			
 	}
-
 	/**************************** RESTFUL UTILITIES ************************/
+
+
+	/**
+	* Utility methods for RESTful responses
+	**/
 
 	/**
 	* Utility function for miscellaneous 404's
@@ -220,7 +234,7 @@ component extends="coldbox.system.EventHandler"{
 	private function routeNotFound( event, rc, prc ){
 		
 		if( !structKeyExists( prc, "response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getAPIResponse();
 		}
 
 		prc.response.setError( true )
@@ -238,7 +252,7 @@ component extends="coldbox.system.EventHandler"{
 		prc 	= getRequestCollection( private=true ) 
 	){
 		if( !structKeyExists( prc, "response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getAPIResponse();
 		}
 
 		prc.response.setError( true )
@@ -289,18 +303,6 @@ component extends="coldbox.system.EventHandler"{
 			abort;
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
