@@ -32,7 +32,8 @@ component extends="coldbox.system.EventHandler"{
 		"RESET" 				: 205,
 		"PARTIAL_CONTENT" 		: 206,
 		"BAD_REQUEST" 			: 400,
-		"NOT_AUTHORIZED" 		: 401,
+		"NOT_AUTHORIZED" 		: 403,
+		"NOT_AUTHENTICATED" 	: 401,
 		"NOT_FOUND" 			: 404,
 		"NOT_ALLOWED" 			: 405,
 		"NOT_ACCEPTABLE" 		: 406,
@@ -54,6 +55,7 @@ component extends="coldbox.system.EventHandler"{
 	this.allowedMethods = {
 		"index" 	: METHODS.GET,
 		"get" 		: METHODS.GET,
+		"create" 	: METHODS.POST,
 		"list" 		: METHODS.GET,
 		"update" 	: METHODS.PUT & "," & METHODS.PATCH,
 		"delete" 	: METHODS.DELETE
@@ -248,6 +250,27 @@ component extends="coldbox.system.EventHandler"{
 	}
 
 	/**
+	* Utility method to render missing or invalid authentication credentials
+	**/
+	private function onAuthenticationFailure( 
+		event 	= getRequestContext(), 
+		rc 		= getRequestCollection(),
+		prc 	= getRequestCollection( private=true ),
+		abort 	= false 
+	){
+		if( !structKeyExists( prc, "response" ) ){
+			prc.response = getModel( "Response" );
+		}
+
+		log.warn( "Invalid Authentication", getHTTPRequestData() );
+
+		prc.response.setError( true )
+			.setStatusCode( STATUS.NOT_AUTHENTICATED )
+			.setStatusText( "Invalid or Missing Credentials" )
+			.addMessage( "Invalid or Missing Authentication Credentials" );
+	}
+
+	/**
 	* Utility method to render a failure of authorization on any resource
 	**/
 	private function onAuthorizationFailure( 
@@ -289,18 +312,5 @@ component extends="coldbox.system.EventHandler"{
 			abort;
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
