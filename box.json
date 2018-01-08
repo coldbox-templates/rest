@@ -1,41 +1,41 @@
 {
-    "name":"REST APP Template",
-    "version":"2.3.0",
-    "location":"https://github.com/coldbox-templates/rest/archive/v2.3.0.zip",
-    "author":"You",
-    "slug":"cbtemplate-rest",
-    "createPackageDirectory":false,
-    "type":"mvc",
-    "homepage":"https://github.com/coldbox-templates/rest",
-    "documentation":"https://github.com/coldbox-templates/rest",
-    "repository":{
-        "type":"git",
-        "url":"https://github.com/coldbox-templates/rest"
+    "name": "REST APP Template",
+    "version": "2.3.0",
+    "location": "https://github.com/coldbox-templates/rest/archive/v2.3.0.zip",
+    "author": "You",
+    "slug": "cbtemplate-rest",
+    "createPackageDirectory": false,
+    "type": "mvc",
+    "homepage": "https://github.com/coldbox-templates/rest",
+    "documentation": "https://github.com/coldbox-templates/rest",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/coldbox-templates/rest"
     },
-    "bugs":"https://github.com/coldbox-templates/rest/issues",
-    "shortDescription":"This template gives you the base for building RESTFul web services with ColdBox",
-    "contributors":[
-        
+    "bugs": "https://github.com/coldbox-templates/rest/issues",
+    "shortDescription": "This template gives you the base for building RESTFul web services with ColdBox",
+    "contributors": [
+
     ],
-    "ignore":[
-        
+    "ignore": [
+
     ],
-    "devDependencies":{
-        "testbox":"^2.4.0",
-        "relax":"^2.2.0+00032"
+    "devDependencies": {
+        "testbox": "^2.4.0",
+        "relax": "^2.2.0+00032"
     },
-    "installPaths":{
-        "coldbox":"coldbox",
-        "testbox":"testbox",
-        "relax":"modules/relax",
-        "cbswagger":"modules/cbswagger"
+    "installPaths": {
+        "coldbox": "coldbox",
+        "testbox": "testbox",
+        "relax": "modules/relax",
+        "cbswagger": "modules/cbswagger"
     },
-    "dependencies":{
-        "coldbox":"^4.3.0",
-        "cbswagger":"^1.1.0"
+    "dependencies": {
+        "coldbox": "^5.0.0-rc.1",
+        "cbswagger": "^1.1.0"
     },
-    "scripts":{
-        "postVersion":"package set location='https://github.com/coldbox-templates/rest/archive/v`package version`.zip'",
-        "postPublish":"!git push --follow-tags"
+    "scripts": {
+        "postVersion": "package set location='https://github.com/coldbox-templates/rest/archive/v`package version`.zip'",
+        "postPublish": "!git push --follow-tags"
     }
 }
