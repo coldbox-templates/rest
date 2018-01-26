@@ -35,7 +35,7 @@
 
 			//Error/Exception Handling
 			invalidHTTPMethodHandler = "",
-			exceptionHandler		= "",
+			exceptionHandler		= "BaseHandler.onError",
 			invalidEventHandler			= "",
 			customErrorTemplate		= "",
 
