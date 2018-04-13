@@ -120,7 +120,9 @@ component extends="coldbox.system.EventHandler"{
 			statusCode 	= prc.response.getStatusCode(),
 			statusText 	= prc.response.getStatusText(),
 			location 	= prc.response.getLocation(),
-			isBinary 	= prc.response.getBinary()
+			isBinary 	= prc.response.getBinary(),
+			jsonCallback 	= prc.response.getJsonCallback(),
+			jsonQueryFormat	= prc.response.getJsonQueryFormat()
 		);
 		
 		// Global Response Headers
