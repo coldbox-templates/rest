@@ -27,7 +27,7 @@
         "cbswagger":"modules/cbswagger"
     },
     "dependencies":{
-        "coldbox":"^5.0.0-rc.1",
+        "coldbox":"^5.0.0",
         "cbswagger":"^1.2.1"
     },
     "scripts":{
