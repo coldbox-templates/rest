@@ -14,7 +14,7 @@ component accessors="true"{
 	property name="messages" 		type="array";
 	property name="location" 		type="string"		default="";
 	property name="jsonCallback" 	type="string"		default="";
-	property name="jsonQueryFormat" type="string"		default="query";
+	property name="jsonQueryFormat" type="string"		default="true" hint="JSON Only: This parameter can be a Boolean value that specifies how to serialize ColdFusion queries or a string with possible values row, column, or struct";
 	property name="contentType" 	type="string"		default="";
 	property name="statusCode" 		type="numeric"		default="200";
 	property name="statusText" 		type="string"		default="OK";

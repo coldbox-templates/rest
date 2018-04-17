@@ -150,7 +150,7 @@
 	<div id="tb-left" class="centered">
 		<img src="http://www.ortussolutions.com/__media/testbox-185.png" alt="TestBox" id="tb-logo"/><br>v#testbox.getVersion()#<br>
 
-		<a href="index.cfm?action=runTestBox&path=#URLEncodedFormat( url.path )#" target="_blank"><button class="btn-red" type="button">Run All</button></a>
+		<a href="runner.cfm?directory=#URLEncodedFormat( rootMapping & url.path )#" target="_blank"><button class="btn-red" type="button">Run All</button></a>
 	</div>
 
 	<div id="tb-right">
@@ -170,12 +170,14 @@
 			</cfif>
 
 			<cfset dirPath = URLEncodedFormat( ( url.path neq '/' ? '#url.path#/' : '/' ) & qResults.name )>
+			<cfset invocationPath = arrayToList( listToArray( executePath, "/" ), "." ) & "." & listFirst( qResults.name, "." ) >
+			<cfset bundlePath = URLEncodedFormat( invocationPath  ) >
 			<cfif qResults.type eq "Dir">
 				+<a href="index.cfm?path=#dirPath#">#qResults.name#</a><br/>
 			<cfelseif listLast( qresults.name, ".") eq "cfm">
-				<a class="btn-red" href="#executePath & qResults.name#" <cfif !url.cpu>target="_blank"</cfif>>#qResults.name#</a><br/>
+				<a class="btn-red" href="runner.cfm?method=runRemote&testBundles=#bundlePath#" <cfif !url.cpu>target="_blank"</cfif>>#qResults.name#</a><br/>
 			<cfelseif listLast( qresults.name, ".") eq "cfc" and qresults.name neq "Application.cfc">
-				<a class="test btn-red" href="#executePath & qResults.name#?method=runRemote" <cfif !url.cpu>target="_blank"</cfif>>#qResults.name#</a><br/>
+				<a class="test btn-red" href="runner.cfm?method=runRemote&testBundles=#bundlePath#" <cfif !url.cpu>target="_blank"</cfif>>#qResults.name#</a><br/>
 			<cfelse>
 				#qResults.name#<br/>
 			</cfif>

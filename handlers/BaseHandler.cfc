@@ -51,7 +51,7 @@ component extends="coldbox.system.EventHandler"{
 	this.aroundHandler_only 	= "";
 	this.aroundHandler_except 	= "";		
 
-	// REST Allowed HTTP Methods Ex: this.allowedMethods = {delete='#METHODS.POST#,#METHODS.DELETE#',index='#METHOD.GET#'}
+	// REST Allowed HTTP Methods Ex: this.allowedMethods = {delete='#METHODS.POST#,#METHODS.DELETE#',index='#METTHOD.GET#'}
 	this.allowedMethods = {
 		"index" 	: METHODS.GET,
 		"get" 		: METHODS.GET,
@@ -78,7 +78,7 @@ component extends="coldbox.system.EventHandler"{
 				prc.response.setFormat( rc.format );
 			}
 			// Execute action
-			var actionResults = arguments.targetAction( argumentCollection=args );
+			arguments.targetAction( argumentCollection=args );
 		} catch( Any e ){
 			// Log Locally
 			log.error( "Error calling #event.getCurrentEvent()#: #e.message# #e.detail#", e );
@@ -104,16 +104,6 @@ component extends="coldbox.system.EventHandler"{
 		}
 		// end timer
 		prc.response.setResponseTime( getTickCount() - stime );
-
-		// If results detected, just return them, controllers requesting to return results
-		if( !isNull( actionResults ) ){
-			return actionResults;
-		}
-
-		// Verify if controllers doing renderdata overrides? If so, just short-circuit out.
-		if( !structIsEmpty( event.getRenderData() ) ){
-			return;
-		}
 		
 		// Get response data
 		var responseData = prc.response.getDataPacket();
@@ -122,21 +112,19 @@ component extends="coldbox.system.EventHandler"{
 			responseData = prc.response.getDataPacket( reset=true );
 		}
 
-		// Did the controllers set a view to be rendered? If not use renderdata, else just delegate to view.
-		if( !len( event.getCurrentView() ) ){
-
-			// Magical Response renderings
-			event.renderData(
-				type		= prc.response.getFormat(),
-				data 		= prc.response.getDataPacket(),
-				contentType = prc.response.getContentType(),
-				statusCode 	= prc.response.getStatusCode(),
-				statusText 	= prc.response.getStatusText(),
-				location 	= prc.response.getLocation(),
-				isBinary 	= prc.response.getBinary()
-			);
-		}
-
+		// Magical renderings
+		event.renderData( 
+			type		= prc.response.getFormat(),
+			data 		= responseData,
+			contentType = prc.response.getContentType(),
+			statusCode 	= prc.response.getStatusCode(),
+			statusText 	= prc.response.getStatusText(),
+			location 	= prc.response.getLocation(),
+			isBinary 	= prc.response.getBinary(),
+			jsonCallback 	= prc.response.getJsonCallback(),
+			jsonQueryFormat	= prc.response.getJsonQueryFormat()
+		);
+		
 		// Global Response Headers
 		prc.response.addHeader( "x-response-time", prc.response.getResponseTime() )
 				.addHeader( "x-cached-response", prc.response.getCachedResponse() );
@@ -153,12 +141,8 @@ component extends="coldbox.system.EventHandler"{
 	function onError( event, rc, prc, faultAction, exception, eventArguments ){
 		// Log Locally
 		log.error( "Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#", arguments.exception );
-		
 		// Verify response exists, else create one
-		if( !structKeyExists( prc, "response" ) ){ 
-			prc.response = getModel( "Response" ); 
-		}
-
+		if( !structKeyExists( prc, "response" ) ){ prc.response = getModel( "Response" ); }
 		// Setup General Error Response
 		prc.response
 			.setError( true )
@@ -172,19 +156,16 @@ component extends="coldbox.system.EventHandler"{
 				.addMessage( "StackTrace: #arguments.exception.stacktrace#" );
 		}
 		
-		// If in development, then it will show full trace error template, else render data
-		if( getSetting( "environment" ) neq "development" ){
-			// Render Error Out
-			event.renderData( 
-				type		= prc.response.getFormat(),
-				data 		= prc.response.getDataPacket( reset=true ),
-				contentType = prc.response.getContentType(),
-				statusCode 	= prc.response.getStatusCode(),
-				statusText 	= prc.response.getStatusText(),
-				location 	= prc.response.getLocation(),
-				isBinary 	= prc.response.getBinary()
-			);
-		}
+		// Render Error Out
+		event.renderData( 
+			type		= prc.response.getFormat(),
+			data 		= prc.response.getDataPacket( reset=true ),
+			contentType = prc.response.getContentType(),
+			statusCode 	= prc.response.getStatusCode(),
+			statusText 	= prc.response.getStatusText(),
+			location 	= prc.response.getLocation(),
+			isBinary 	= prc.response.getBinary()
+		);
 	}
 
 	/**
