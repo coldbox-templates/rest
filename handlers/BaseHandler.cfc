@@ -78,7 +78,7 @@ component extends="coldbox.system.EventHandler"{
 				prc.response.setFormat( rc.format );
 			}
 			// Execute action
-			arguments.targetAction( argumentCollection=args );
+			var actionResults = arguments.targetAction( argumentCollection=args );
 		} catch( Any e ){
 			// Log Locally
 			log.error( "Error calling #event.getCurrentEvent()#: #e.message# #e.detail#", e );
@@ -104,27 +104,33 @@ component extends="coldbox.system.EventHandler"{
 		}
 		// end timer
 		prc.response.setResponseTime( getTickCount() - stime );
-		
-		// Get response data
-		var responseData = prc.response.getDataPacket();
-		// If we have an error flag, render our messages and omit any marshalled data
-		if( prc.response.getError() ){
-			responseData = prc.response.getDataPacket( reset=true );
-		}
 
-		// Magical renderings
-		event.renderData( 
-			type		= prc.response.getFormat(),
-			data 		= responseData,
-			contentType = prc.response.getContentType(),
-			statusCode 	= prc.response.getStatusCode(),
-			statusText 	= prc.response.getStatusText(),
-			location 	= prc.response.getLocation(),
-			isBinary 	= prc.response.getBinary(),
-			jsonCallback 	= prc.response.getJsonCallback(),
-			jsonQueryFormat	= prc.response.getJsonQueryFormat()
-		);
-		
+		// Did the controllers set a view to be rendered? If not use renderdata, else just delegate to view.
+		if( 
+			!len( event.getCurrentView() ) 
+			OR
+			structIsEmpty( event.getRenderData() )
+		){
+			// Get response data
+			var responseData = prc.response.getDataPacket();
+			// If we have an error flag, render our messages and omit any marshalled data
+			if( prc.response.getError() ){
+				responseData = prc.response.getDataPacket( reset=true );
+			}
+			// Magical renderings
+			event.renderData( 
+				type			= prc.response.getFormat(),
+				data 			= responseData,
+				contentType 	= prc.response.getContentType(),
+				statusCode 		= prc.response.getStatusCode(),
+				statusText 		= prc.response.getStatusText(),
+				location 		= prc.response.getLocation(),
+				isBinary 		= prc.response.getBinary(),
+				jsonCallback 	= prc.response.getJsonCallback(),
+				jsonQueryFormat	= prc.response.getJsonQueryFormat()
+			);
+		}
+		 
 		// Global Response Headers
 		prc.response.addHeader( "x-response-time", prc.response.getResponseTime() )
 				.addHeader( "x-cached-response", prc.response.getCachedResponse() );
@@ -132,6 +138,11 @@ component extends="coldbox.system.EventHandler"{
 		// Response Headers
 		for( var thisHeader in prc.response.getHeaders() ){
 			event.setHTTPHeader( name=thisHeader.name, value=thisHeader.value );
+		}
+
+		// If results detected, just return them, controllers requesting to return results
+		if( !isNull( actionResults ) ){
+			return actionResults;
 		}
 	}
 
@@ -141,8 +152,12 @@ component extends="coldbox.system.EventHandler"{
 	function onError( event, rc, prc, faultAction, exception, eventArguments ){
 		// Log Locally
 		log.error( "Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#", arguments.exception );
+		
 		// Verify response exists, else create one
-		if( !structKeyExists( prc, "response" ) ){ prc.response = getModel( "Response" ); }
+		if( !structKeyExists( prc, "Response" ) ){ 
+			prc.response = getModel( "Response" ); 
+		}
+
 		// Setup General Error Response
 		prc.response
 			.setError( true )
@@ -156,16 +171,19 @@ component extends="coldbox.system.EventHandler"{
 				.addMessage( "StackTrace: #arguments.exception.stacktrace#" );
 		}
 		
-		// Render Error Out
-		event.renderData( 
-			type		= prc.response.getFormat(),
-			data 		= prc.response.getDataPacket( reset=true ),
-			contentType = prc.response.getContentType(),
-			statusCode 	= prc.response.getStatusCode(),
-			statusText 	= prc.response.getStatusText(),
-			location 	= prc.response.getLocation(),
-			isBinary 	= prc.response.getBinary()
-		);
+		// If in development, then it will show full trace error template, else render data
+		if( getSetting( "environment" ) neq "development" ){
+			// Render Error Out
+			event.renderData( 
+				type		= prc.response.getFormat(),
+				data 		= prc.response.getDataPacket( reset=true ),
+				contentType = prc.response.getContentType(),
+				statusCode 	= prc.response.getStatusCode(),
+				statusText 	= prc.response.getStatusText(),
+				location 	= prc.response.getLocation(),
+				isBinary 	= prc.response.getBinary()
+			);
+		}
 	}
 
 	/**
@@ -223,7 +241,7 @@ component extends="coldbox.system.EventHandler"{
 	**/
 	private function routeNotFound( event, rc, prc ){
 		
-		if( !structKeyExists( prc, "response" ) ){
+		if( !structKeyExists( prc, "Response" ) ){
 			prc.response = getModel( "Response" );
 		}
 
@@ -241,7 +259,7 @@ component extends="coldbox.system.EventHandler"{
 		rc 		= getRequestCollection(),
 		prc 	= getRequestCollection( private=true ) 
 	){
-		if( !structKeyExists( prc, "response" ) ){
+		if( !structKeyExists( prc, "Response" ) ){
 			prc.response = getModel( "Response" );
 		}
 
@@ -260,7 +278,7 @@ component extends="coldbox.system.EventHandler"{
 		prc 	= getRequestCollection( private=true ),
 		abort 	= false 
 	){
-		if( !structKeyExists( prc, "response" ) ){
+		if( !structKeyExists( prc, "Response" ) ){
 			prc.response = getModel( "Response" );
 		}
 
@@ -281,7 +299,7 @@ component extends="coldbox.system.EventHandler"{
 		prc 	= getRequestCollection( private=true ),
 		abort 	= false 
 	){
-		if( !structKeyExists( prc, "response" ) ){
+		if( !structKeyExists( prc, "Response" ) ){
 			prc.response = getModel( "Response" );
 		}
 
