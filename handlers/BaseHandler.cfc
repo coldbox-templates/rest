@@ -107,9 +107,12 @@ component extends="coldbox.system.EventHandler"{
 
 		// Did the controllers set a view to be rendered? If not use renderdata, else just delegate to view.
 		if( 
-			!len( event.getCurrentView() ) 
-			OR
-			structIsEmpty( event.getRenderData() )
+			isNull( actionResults )
+			AND (
+				!len( event.getCurrentView() ) 
+				OR
+				structIsEmpty( event.getRenderData() )
+			)
 		){
 			// Get response data
 			var responseData = prc.response.getDataPacket();
@@ -139,7 +142,7 @@ component extends="coldbox.system.EventHandler"{
 		for( var thisHeader in prc.response.getHeaders() ){
 			event.setHTTPHeader( name=thisHeader.name, value=thisHeader.value );
 		}
-
+		
 		// If results detected, just return them, controllers requesting to return results
 		if( !isNull( actionResults ) ){
 			return actionResults;
