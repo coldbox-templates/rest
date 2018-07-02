@@ -1,7 +1,7 @@
 {
     "name":"REST APP Template",
-    "version":"2.11.0",
-    "location":"https://github.com/coldbox-templates/rest/archive/v2.11.0.zip",
+    "version":"2.12.0",
+    "location":"https://github.com/coldbox-templates/rest/archive/v2.12.0.zip",
     "author":"You",
     "slug":"cbtemplate-rest",
     "createPackageDirectory":false,
