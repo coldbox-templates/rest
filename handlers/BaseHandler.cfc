@@ -81,7 +81,13 @@ component extends="coldbox.system.EventHandler"{
 			var actionResults = arguments.targetAction( argumentCollection=args );
 		} catch( Any e ){
 			// Log Locally
-			log.error( "Error calling #event.getCurrentEvent()#: #e.message# #e.detail#", e );
+			log.error( 
+				"Error calling #event.getCurrentEvent()#: #e.message# #e.detail#", 
+				{
+					"stacktrace" : e.stacktrace,
+					"httpData" : getHTTPRequestData()
+				} 
+			);
 			// Setup General Error Response
 			prc.response
 				.setError( true )
@@ -154,7 +160,13 @@ component extends="coldbox.system.EventHandler"{
 	*/
 	function onError( event, rc, prc, faultAction, exception, eventArguments ){
 		// Log Locally
-		log.error( "Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#", arguments.exception );
+		log.error( 
+			"Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#", 
+			{
+				"stacktrace" : e.stacktrace,
+				"httpData" : getHTTPRequestData()
+			} 
+		);
 		
 		// Verify response exists, else create one
 		if( !structKeyExists( prc, "Response" ) ){ 
