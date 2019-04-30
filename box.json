@@ -17,7 +17,7 @@
     "contributors":[],
     "ignore":[],
     "devDependencies":{
-        "testbox":"^2.7.0",
+        "testbox":"^3.0.0",
         "relax":"^3.0.2"
     },
     "installPaths":{
