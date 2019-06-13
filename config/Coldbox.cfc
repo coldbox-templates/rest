@@ -6,7 +6,7 @@
 		// coldbox directives
 		coldbox = {
 			//Application Setup
-			appName 				= "Your RESTFul app name here",
+			appName 				= getSystemSetting( "APPNAME", "Your app name here" ),
 			eventName 				= "event",
 
 			//Development Settings

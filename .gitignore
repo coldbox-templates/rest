@@ -2,13 +2,16 @@
 .DS_Store
 settings.xml
 WEB-INF
+.env
 
-# logs
-logs/*.*
+# logs + tests
+logs/**
+tests/results/**
 
-# NPM, Bower, ETC
+# npm
 **/node_modules/*
-**/bower_components/*
+npm-debug.log
+yarn-error.log
 
 ## Ignored Dependencies
 coldbox/*
