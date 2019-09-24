@@ -18,26 +18,26 @@
     "ignore":[],
     "devDependencies":{
         "testbox":"^3.0.0",
-		"relax":"^3.0.2",
-		"commandbox-dotenv":"*",
+        "relax":"^3.0.2",
+        "commandbox-dotenv":"*",
         "commandbox-cfconfig":"*",
         "commandbox-cfformat":"*"
     },
     "installPaths":{
-        "coldbox":"coldbox",
-        "testbox":"testbox",
-        "relax":"modules/relax",
-        "cbswagger":"modules/cbswagger"
+        "coldbox":"coldbox/",
+        "testbox":"testbox/",
+        "relax":"modules/relax/",
+        "cbswagger":"modules/cbswagger/"
     },
     "dependencies":{
         "coldbox":"^5.0.0",
-        "cbswagger":"^1.2.1"
+        "cbswagger":"^2.0.0"
     },
     "scripts":{
         "postVersion":"package set location='https://github.com/coldbox-templates/rest/archive/v`package version`.zip'",
-		"postPublish":"!git push --follow-tags",
-		"postInstall":"pathExists .env || cp .env.example .env",
-		"format":"cfformat config/**/*.cfc,handlers/**/*.cfc,interceptors/**/*.cfc,models/**/*.cfc,modules_app/**/*.cfc,tests/specs/**/*.cfc,*.cfc --overwrite",
+        "postPublish":"!git push --follow-tags",
+        "postInstall":"pathExists .env || cp .env.example .env",
+        "format":"cfformat config/**/*.cfc,handlers/**/*.cfc,interceptors/**/*.cfc,models/**/*.cfc,modules_app/**/*.cfc,tests/specs/**/*.cfc,*.cfc --overwrite",
         "format:check":"cfformat config/**/*.cfc,handlers/**/*.cfc,interceptors/**/*.cfc,models/**/*.cfc,modules_app/**/*.cfc,tests/specs/**/*.cfc,*.cfc --check"
     }
 }
