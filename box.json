@@ -1,7 +1,7 @@
 {
     "name":"REST APP Template",
-    "version":"2.25.0",
-    "location":"https://github.com/coldbox-templates/rest/archive/v2.25.0.zip",
+    "version":"2.26.0",
+    "location":"https://github.com/coldbox-templates/rest/archive/v2.26.0.zip",
     "author":"You",
     "slug":"cbtemplate-rest",
     "createPackageDirectory":false,
@@ -18,7 +18,7 @@
     "ignore":[],
     "devDependencies":{
         "testbox":"^3.0.0",
-        "relax":"^3.0.2",
+        "relax":"^4",
         "commandbox-dotenv":"*",
         "commandbox-cfconfig":"*",
         "commandbox-cfformat":"*"
