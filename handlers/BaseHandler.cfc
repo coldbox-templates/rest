@@ -75,7 +75,7 @@ component extends="coldbox.system.EventHandler"{
 			// start a resource timer
 			var stime = getTickCount();
 			// prepare our response object
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 			// prepare argument execution
 			var args = { event = arguments.event, rc = arguments.rc, prc = arguments.prc };
 			structAppend( args, arguments.eventArguments );
@@ -172,7 +172,7 @@ component extends="coldbox.system.EventHandler"{
 	}
 
 	/**
-	 * Fires whenever exceptions occur in any handler action that extends this handler
+	 * on localized errors
 	 */
 	function onError(
 		event,
@@ -184,7 +184,7 @@ component extends="coldbox.system.EventHandler"{
 	){
 		// Log Locally
 		log.error(
-			"Server error executing (#arguments.faultAction#) : #arguments.exception.message# #arguments.exception.detail#",
+			"Error in base handler (#arguments.faultAction#): #arguments.exception.message# #arguments.exception.detail#",
 			{
 				"_stacktrace" 	: arguments.exception.stacktrace,
 				"httpData" 		: getHTTPRequestData()
@@ -193,7 +193,7 @@ component extends="coldbox.system.EventHandler"{
 
 		// Verify response exists, else create one
 		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 		}
 
 		// Setup General Error Response
@@ -243,7 +243,7 @@ component extends="coldbox.system.EventHandler"{
 		}
 
 		// Setup Response
-		prc.response = getModel( "Response" )
+		prc.response = getModel( "Response@api" )
 			.setError( true )
 			.setData( deserializeJSON( arguments.exception.extendedInfo ) )
 			.addMessage( "Validation exceptions occurred, please see the data" )
@@ -276,7 +276,7 @@ component extends="coldbox.system.EventHandler"{
 		log.warn( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 
 		// Setup Response
-		prc.response = getModel( "Response" )
+		prc.response = getModel( "Response@api" )
 			.setError( true )
 			.addMessage( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -305,7 +305,7 @@ component extends="coldbox.system.EventHandler"{
 		eventArguments
 	){
 		// Setup Response
-		prc.response = getModel( "Response" )
+		prc.response = getModel( "Response@api" )
 			.setError( true )
 			.addMessage( "Action '#arguments.missingAction#' could not be found" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -333,13 +333,18 @@ component extends="coldbox.system.EventHandler"{
 		abort 	= false
 	){
 		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 		}
 
 		prc.response.setError( true )
 			.setStatusCode( STATUS.NOT_AUTHENTICATED )
 			.setStatusText( "Invalid or Missing Credentials" )
 			.addMessage( "Invalid or Missing Authentication Credentials" );
+
+		// Check for validator results
+		if( !isNull( prc.cbSecurity_validatorResults ) ){
+			prc.response.addMessage( prc.cbSecurity_validatorResults.messages );
+		}
 	}
 
 	/**
@@ -352,13 +357,18 @@ component extends="coldbox.system.EventHandler"{
 		abort 	= false
 	){
 		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 		}
 
 		prc.response.setError( true )
 			.setStatusCode( STATUS.NOT_AUTHORIZED )
 			.setStatusText( "Unauthorized Resource" )
 			.addMessage( "Your permissions do not allow this operation" );
+
+		// Check for validator results
+		if( !isNull( prc.cbSecurity_validatorResults ) ){
+			prc.response.addMessage( prc.cbSecurity_validatorResults.messages );
+		}
 
 		/**
 		 * When you need a really hard stop to prevent further execution ( use as last resort )
@@ -390,7 +400,7 @@ component extends="coldbox.system.EventHandler"{
 	function onInvalidRoute( event, rc, prc ){
 
 		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 		}
 
 		prc.response.setError( true )
@@ -410,7 +420,7 @@ component extends="coldbox.system.EventHandler"{
 		prc 	= getRequestCollection( private=true )
 	){
 		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 		}
 
 		prc.response.setError( true )
