@@ -75,7 +75,7 @@ component extends="coldbox.system.EventHandler"{
 			// start a resource timer
 			var stime = getTickCount();
 			// prepare our response object
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 			// prepare argument execution
 			var args = { event = arguments.event, rc = arguments.rc, prc = arguments.prc };
 			structAppend( args, arguments.eventArguments );
@@ -94,6 +94,11 @@ component extends="coldbox.system.EventHandler"{
 		catch( "ValidationException" e ){
 			arguments.exception = e;
 			this.onValidationException( argumentCollection=arguments );
+		}
+		// Entity Not Found Exceptions
+		catch( "EntityNotFound" e ){
+			arguments.exception = e;
+			this.onEntityNotFoundException( argumentCollection=arguments );
 		}
 		catch( Any e ){
 			// Log Locally
@@ -193,7 +198,7 @@ component extends="coldbox.system.EventHandler"{
 
 		// Verify response exists, else create one
 		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 		}
 
 		// Setup General Error Response
@@ -243,12 +248,50 @@ component extends="coldbox.system.EventHandler"{
 		}
 
 		// Setup Response
-		prc.response = getModel( "Response" )
+		prc.response = getModel( "Response@api" )
 			.setError( true )
 			.setData( deserializeJSON( arguments.exception.extendedInfo ) )
 			.addMessage( "Validation exceptions occurred, please see the data" )
 			.setStatusCode( STATUS.BAD_REQUEST )
 			.setStatusText( "Invalid Request" );
+
+		// Render Error Out
+		event.renderData(
+			type		= prc.response.getFormat(),
+			data 		= prc.response.getDataPacket( reset=true ),
+			contentType = prc.response.getContentType(),
+			statusCode 	= prc.response.getStatusCode(),
+			statusText 	= prc.response.getStatusText(),
+			location 	= prc.response.getLocation(),
+			isBinary 	= prc.response.getBinary()
+		);
+	}
+
+	/**
+	 * on entity not found exception
+	 */
+	function onEntityNotFoundException(
+		event,
+		rc,
+		prc,
+		eventArguments,
+		exception
+	){
+		// Log Locally
+		if( log.canDebug() ){
+			log.debug(
+				"Record not found in execution of (#arguments.event.getCurrentEvent()#)",
+				arguments.exception.extendedInfo
+			);
+		}
+
+		// Setup Response
+		prc.response = getModel( "Response@api" )
+			.setError( true )
+			.setData( rc.id ?: "" )
+			.addMessage( "The record you requested cannot be found in this system" )
+			.setStatusCode( STATUS.NOT_FOUND )
+			.setStatusText( "Not Found" );
 
 		// Render Error Out
 		event.renderData(
@@ -276,7 +319,7 @@ component extends="coldbox.system.EventHandler"{
 		log.warn( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#", getHTTPRequestData() );
 
 		// Setup Response
-		prc.response = getModel( "Response" )
+		prc.response = getModel( "Response@api" )
 			.setError( true )
 			.addMessage( "InvalidHTTPMethod Execution of (#arguments.faultAction#): #event.getHTTPMethod()#" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -305,7 +348,7 @@ component extends="coldbox.system.EventHandler"{
 		eventArguments
 	){
 		// Setup Response
-		prc.response = getModel( "Response" )
+		prc.response = getModel( "Response@api" )
 			.setError( true )
 			.addMessage( "Action '#arguments.missingAction#' could not be found" )
 			.setStatusCode( STATUS.NOT_ALLOWED )
@@ -333,7 +376,7 @@ component extends="coldbox.system.EventHandler"{
 		abort 	= false
 	){
 		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 		}
 
 		// case when the a jwt token was valid, but expired
@@ -364,7 +407,7 @@ component extends="coldbox.system.EventHandler"{
 		abort 	= false
 	){
 		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 		}
 
 		prc.response.setError( true )
@@ -407,7 +450,7 @@ component extends="coldbox.system.EventHandler"{
 	function onInvalidRoute( event, rc, prc ){
 
 		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 		}
 
 		prc.response.setError( true )
@@ -427,7 +470,7 @@ component extends="coldbox.system.EventHandler"{
 		prc 	= getRequestCollection( private=true )
 	){
 		if( !structKeyExists( prc, "Response" ) ){
-			prc.response = getModel( "Response" );
+			prc.response = getModel( "Response@api" );
 		}
 
 		prc.response.setError( true )
