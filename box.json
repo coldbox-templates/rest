@@ -1,7 +1,7 @@
 {
     "name":"REST APP Template",
-    "version":"2.30.0",
-    "location":"https://github.com/coldbox-templates/rest/archive/v2.30.0.zip",
+    "version":"6.0.0-snapshot",
+    "location":"forgeboxStorage",
     "author":"You",
     "slug":"cbtemplate-rest",
     "createPackageDirectory":false,
@@ -17,8 +17,9 @@
     "contributors":[],
     "ignore":[],
     "devDependencies":{
-        "testbox":"^3.0.0",
-        "relax":"^4",
+        "testbox":"^4.0.0",
+		"relax":"be",
+		"route-visualizer":"*",
         "commandbox-dotenv":"*",
         "commandbox-cfconfig":"*",
         "commandbox-cfformat":"*"
@@ -30,14 +31,14 @@
         "cbswagger":"modules/cbswagger/"
     },
     "dependencies":{
-        "coldbox":"^5.0.0",
+        "coldbox":"be",
         "cbswagger":"^2.0.0"
     },
     "scripts":{
-        "postVersion":"package set location='https://github.com/coldbox-templates/rest/archive/v`package version`.zip'",
         "postPublish":"!git push --follow-tags",
         "postInstall":"pathExists .env || cp .env.example .env",
-        "format":"cfformat config/**/*.cfc,handlers/**/*.cfc,interceptors/**/*.cfc,models/**/*.cfc,modules_app/**/*.cfc,tests/specs/**/*.cfc,*.cfc --overwrite",
-        "format:check":"cfformat config/**/*.cfc,handlers/**/*.cfc,interceptors/**/*.cfc,models/**/*.cfc,modules_app/**/*.cfc,tests/specs/**/*.cfc,*.cfc --check"
+        "format":"cfformat run config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc --overwrite",
+        "format:check":"cfformat check config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc",
+        "format:watch":"cfformat watch path='config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc' settingsPath='.cfformat.json'"
     }
 }
