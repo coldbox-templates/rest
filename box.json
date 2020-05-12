@@ -18,8 +18,8 @@
     "ignore":[],
     "devDependencies":{
         "testbox":"^4.0.0",
-		"relax":"be",
-		"route-visualizer":"*",
+        "relax":"^4.1.0",
+        "route-visualizer":"*",
         "commandbox-dotenv":"*",
         "commandbox-cfconfig":"*",
         "commandbox-cfformat":"*"
@@ -28,11 +28,16 @@
         "coldbox":"coldbox/",
         "testbox":"testbox/",
         "relax":"modules/relax/",
-        "cbswagger":"modules/cbswagger/"
+        "cbsecurity":"modules/cbsecurity/",
+        "route-visualizer":"modules/route-visualizer/",
+        "mementifier":"modules/mementifier/",
+        "cbvalidation":"modules/cbvalidation/"
     },
     "dependencies":{
         "coldbox":"be",
-        "cbswagger":"^2.0.0"
+        "cbsecurity":"^2.5.0+94",
+        "mementifier":"^2.1.0+100",
+        "cbvalidation":"^2.1.0+126"
     },
     "scripts":{
         "postPublish":"!git push --follow-tags",

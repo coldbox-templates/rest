@@ -5,6 +5,7 @@ This template gives you the base for building RESTFul web services with ColdBox.
 In the `models` folder you will find our Universal REST Response object that can be leveraged as your base for building RESTFul services.
 
 ## Implicit Methods
+
 The base handler implements an around handler approach to provide consistency and the following actions:
 
 - `onError` - Fires whenever there is a runtime exception in any action
@@ -12,6 +13,7 @@ The base handler implements an around handler approach to provide consistency an
 - `onMissingAction` - Fires on invalid missing actions on handlers
 
 ## Utility Functions
+
 We also give you some utility functions for RESTFul building:
 
 - `routeNotFound` - Can be used to fire of route not founds via 404
@@ -19,6 +21,7 @@ We also give you some utility functions for RESTFul building:
 - `onAuthorizationFailure` - Can be called to send a NOT Authorized status code and message.
 
 ## HTTP Security
+
 By default the base handlers leverages ColdBox method security via the `this.allowedMethods` structure:
 
 ```
@@ -32,6 +35,7 @@ this.allowedMethods = {
 ```
 
 ## HTTP Methods
+
 The base handler contains a static construct called `METHODS` that implements basic HTTP Methods that you can use for messages and allowed methods.
 
 ```
@@ -46,6 +50,7 @@ METHODS = {
 ```
 
 ## Status Codes
+
 The base handler contains a static construct called `STATUS` that implements basic HTTP status codes you can use:
 
 ```
@@ -68,16 +73,13 @@ STATUS = {
 };
 ```
 
-
-- 
-
 ## License
+
 Apache License, Version 2.0.
 
 ## Important Links
 
-Source Code
-- https://github.com/coldbox-templates/rest
+- Source Code https://github.com/coldbox-templates/rest
 
 ## Quick Installation
 
@@ -98,5 +100,6 @@ And run the application.
 
 ---
  
-###THE DAILY BREAD
+### THE DAILY BREAD
+
  > "I am the way, and the truth, and the life; no one comes to the Father, but by me (JESUS)" Jn 14:1-12
