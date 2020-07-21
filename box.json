@@ -1,6 +1,6 @@
 {
     "name":"REST APP Template",
-    "version":"6.0.0-snapshot",
+    "version":"6.0.0",
     "location":"forgeboxStorage",
     "author":"You",
     "slug":"cbtemplate-rest",
