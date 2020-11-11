@@ -34,7 +34,7 @@
         "cbvalidation":"modules/cbvalidation/"
     },
     "dependencies":{
-        "coldbox":"be",
+        "coldbox":"^6.0.0",
         "cbsecurity":"^2.5.0+94",
         "mementifier":"^2.1.0+100",
         "cbvalidation":"^2.1.0+126"
