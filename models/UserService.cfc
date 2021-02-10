@@ -37,7 +37,7 @@ component accessors="true" singleton {
 	/**
 	 * Construct a new user object via WireBox
 	 */
-	User function new() provider="User";
+	User function new() provider="User" {}
 
 	/**
 	 * Create a new user in the system
@@ -54,7 +54,7 @@ component accessors="true" singleton {
 			"fname"    : arguments.user.getId(),
 			"lname"    : arguments.user.getId(),
 			"email"    : arguments.user.getId(),
-			"password" : arguments.user.getId(),
+			"password" : arguments.user.getId()
 			
 		} );
 		return arguments.user;
