@@ -16,7 +16,7 @@ The base handler implements an around handler approach to provide consistency an
 
 We also give you some utility functions for RESTFul building:
 
-- `routeNotFound` - Can be used to fire of route not founds via 404
+- `onInvalidRoute` - Can be used to fire of route not founds via 404
 - `onExpectationFailed` - Can be called when an expectation of a request fails, like invalid parameters/headers etc.
 - `onAuthorizationFailure` - Can be called to send a NOT Authorized status code and message.
 
