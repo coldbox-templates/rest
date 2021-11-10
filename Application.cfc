@@ -33,7 +33,7 @@ component {
 	}
 
 	// application end
-	public boolean function onApplicationEnd( struct appScope ) {
+	public void function onApplicationEnd( struct appScope ) {
 		arguments.appScope.cbBootstrap.onApplicationEnd( arguments.appScope );
 	}
 
