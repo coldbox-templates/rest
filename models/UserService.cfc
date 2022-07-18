@@ -51,10 +51,10 @@ component accessors="true" singleton {
 
 		variables.mockUsers.append( {
 			"id"       : arguments.user.getId(),
-			"fname"    : arguments.user.getId(),
-			"lname"    : arguments.user.getId(),
-			"email"    : arguments.user.getId(),
-			"password" : arguments.user.getId()
+			"fname"    : arguments.user.getFname(),
+			"lname"    : arguments.user.getLname(),
+			"email"    : arguments.user.getEmail(),
+			"password" : arguments.user.getPassword()
 			
 		} );
 		return arguments.user;
