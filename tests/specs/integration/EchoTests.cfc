@@ -78,7 +78,7 @@ component
 				var event    = execute( route = "echo/bogus" );
 				var response = event.getPrivateValue( "response" );
 				expect( response.getError() ).tobeTrue();
-				expect( response.getStatusCode() ).toBe( 405 );
+				expect( response.getStatusCode() ).toBe( 404 );
 			} );
 		} );
 	}
