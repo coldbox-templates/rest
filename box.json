@@ -17,7 +17,7 @@
     "contributors":[],
     "ignore":[],
     "devDependencies":{
-        "testbox":"^4.6.0",
+        "testbox":"^4.0.0",
         "relax":"^4.1.0",
         "route-visualizer":"*",
         "commandbox-dotenv":"*",
