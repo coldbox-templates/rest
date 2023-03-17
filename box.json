@@ -17,7 +17,7 @@
     "contributors":[],
     "ignore":[],
     "devDependencies":{
-        "testbox":"^4.2.1+400",
+        "testbox":"^4.6.0",
         "relax":"^4.1.0",
         "route-visualizer":"*",
         "commandbox-dotenv":"*",
@@ -35,9 +35,9 @@
     },
     "dependencies":{
         "coldbox":"^6.0.0",
-        "cbsecurity":"^2.5.0+94",
-        "mementifier":"^2.1.0+100",
-        "cbvalidation":"^2.1.0+126"
+        "cbsecurity":"^3.0.0",
+        "mementifier":"^3.3.0",
+        "cbvalidation":"^4.1.0"
     },
     "scripts":{
         "postPublish":"!git push --follow-tags",
