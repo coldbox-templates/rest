@@ -40,7 +40,7 @@
         "cbvalidation":"^4.1.0"
     },
     "scripts":{
-        "postPublish":"!git push --follow-tags",
+        "postPublish":"!git push origin --tags",
         "postInstall":"pathExists .env || cp .env.example .env",
         "format":"cfformat run config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc --overwrite",
         "format:check":"cfformat check config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc",
