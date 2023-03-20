@@ -9,10 +9,10 @@ on:
       - "v*"
   pull_request:
     branches:
-      - 'v*'
+      - "v*"
+      - "development"
 
 jobs:
-  # UPDATE TO THE MODULE REPO SO PR'S CAN REUSE IT
   tests:
     uses: ./.github/workflows/tests.yml
 
