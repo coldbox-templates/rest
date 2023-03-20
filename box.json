@@ -15,7 +15,10 @@
     "bugs":"https://github.com/coldbox-templates/rest/issues",
     "shortDescription":"This template gives you the base for building RESTFul web services with ColdBox",
     "contributors":[],
-    "ignore":[],
+    "ignore":[
+		"changelog.md",
+        ".github/**"
+	],
     "devDependencies":{
         "testbox":"^4.0.0",
         "relax":"^4.1.0",
