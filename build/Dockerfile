@@ -8,7 +8,7 @@
 ################################################################
 
 # We pull the latest image, you can change this to a specific tag or CFML engine, which we recommend.
-# https://hub.docker.com/repository/docker/ortussolutions/commandbox
+# https://hub.docker.com/r/ortussolutions/commandbox
 FROM ortussolutions/commandbox
 
 # Metadata
