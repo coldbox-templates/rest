@@ -38,7 +38,9 @@ component {
 		// API Secured Routes
 		get( "/api/whoami", "Echo.whoami" );
 
-		// Conventions based routing
+		// @app_routes@
+
+		// Conventions-Based Routing
 		route( ":handler/:action?" ).end();
 	}
 
