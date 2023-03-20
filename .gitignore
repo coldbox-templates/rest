@@ -6,8 +6,8 @@ WEB-INF
 # Engines + Database + CBFS + Secrets
 .env
 .engine/**
-.db/**
 .cbfs/**
+build/.db/**
 
 # logs + tests
 logs/**
@@ -19,7 +19,5 @@ npm-debug.log
 yarn-error.log
 
 ## Ignored Dependencies
-coldbox/*
-testbox/*
-modules/*
-modules/**/apidocs/**
+lib/vendor/**
+modules/**

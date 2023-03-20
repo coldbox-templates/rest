@@ -1,0 +1,80 @@
+name: ForgeBox Release
+
+on:
+  workflow_dispatch:
+    inputs:
+       doTests:
+          description: 'Run Tests Before release'
+          required: false
+          default: false
+          type: boolean
+       versionType:
+          description: 'Bump Version'
+          required: false
+          default: 'minor'
+          type: choice
+          options:
+          - minor
+          - patch
+
+jobs:
+  #############################################
+  # Tests First baby! We fail, no build :(
+  #############################################
+  tests:
+    if: ${{ inputs.doTests }}
+    uses: ./.github/workflows/tests.yml
+
+  #############################################
+  # Build & Publish
+  #############################################
+  build:
+    name: Build & Publish
+    if: ${{ success() || !inputs.doTests }}
+    needs: tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3.2.0
+
+      - name: Setup Java
+        uses: actions/setup-java@v3.9.0
+        with:
+          distribution: "temurin"
+          java-version: "11"
+
+      - name: Setup CommandBox
+        uses: Ortus-Solutions/setup-commandbox@v2.0.1
+        with:
+          forgeboxAPIKey: ${{ secrets.FORGEBOX_TOKEN }}
+
+      - name: Prepare For Build
+        run: |
+          echo "VERSION=`cat box.json | jq '.version' -r`" >> $GITHUB_ENV
+
+      - name: Publish To ForgeBox & Bump to next release
+        run: |
+          box forgebox publish --force
+          box bump --${{ inputs.versionType }} --!TagVersion
+
+      - name: Tag Version
+        uses: rickstaa/action-create-tag@v1.6.1
+        with:
+          tag: "v${{ env.VERSION }}"
+          force_push_tag: true
+          message: "Latest Release"
+
+      - name: Create Github Release
+        uses: taiki-e/create-gh-release-action@v1.6.2
+        with:
+          title: ${{ env.VERSION }}
+          changelog: changelog.md
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: refs/tags/v${{ env.VERSION }}
+
+      - name: Commit Version Bump
+        uses: EndBug/add-and-commit@v9.1.1
+        with:
+          author_name: Github Actions
+          author_email: info@ortussolutions.com
+          message: 'Version bump'

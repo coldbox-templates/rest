@@ -1,0 +1,97 @@
+name: Test Suites
+
+on:
+  push:
+    branches:
+      - "v*"
+  workflow_call:
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-20.04
+    env:
+      DB_USER: root
+      DB_PASSWORD: root
+      WEB_PORT: 60299
+    strategy:
+      fail-fast: false
+      matrix:
+        cfengine: [ "lucee@5", "adobe@2018", "adobe@2021" ]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3.2.0
+
+      # Not Needed in this module
+      - name: Setup Database and Fixtures
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} -e 'CREATE DATABASE coldbox;'
+
+      - name: Setup Java
+        uses: actions/setup-java@v3.9.0
+        with:
+          distribution: "temurin"
+          java-version: "11"
+
+      - name: Setup CommandBox CLI
+        uses: Ortus-Solutions/setup-commandbox@v2.0.1
+
+      - name: Setup Environment For Testing Process
+        run: |
+          # Setup .env
+          touch .env
+          # ENV
+          printf "DB_HOST=localhost\n" >> .env
+          printf "DB_DATABASE=coldbox\n" >> .env
+          printf "DB_DRIVER=MySQL\n" >> .env
+          printf "DB_USER=${{ env.DB_USER }}\n" >> .env
+          printf "DB_PASSWORD=${{ env.DB_PASSWORD }}\n" >> .env
+          printf "DB_CLASS=com.mysql.cj.jdbc.Driver\n" >> .env
+          printf "DB_BUNDLEVERSION=8.0.19\n" >> .env
+          printf "DB_BUNDLENAME=com.mysql.cj\n" >> .env
+
+      - name: Install Dependencies
+        run: |
+          box install
+
+      - name: Start ${{ matrix.cfengine }} Server
+        run: |
+          box server set web.http.port=${{ env.WEB_PORT }}
+          box server set app.cfengine=${{ matrix.cfengine }}
+          box server start --debug
+          curl http://127.0.0.1:${{ env.WEB_PORT }}
+
+      - name: Run Tests
+        run: |
+          mkdir -p tests/results
+          box testbox run --verbose outputFile=tests/results/test-results outputFormats=json,antjunit
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          junit_files: tests/results/**/*.xml
+          check_name: "${{ matrix.cfengine }} Test Results"
+
+      - name: Upload Test Results to Artifacts
+        if: always()
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: test-results-${{ matrix.cfengine }}
+          path: |
+            tests/results/**/*
+
+      - name: Show Server Log On Failures
+        if: ${{ failure() }}
+        run: |
+          box server log
+
+      - name: Upload Debug Logs To Artifacts
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: Failure Debugging Info - ${{ matrix.cfengine }}
+          path: |
+            .engine/**/logs/*
+            .engine/**/WEB-INF/cfusion/logs/*

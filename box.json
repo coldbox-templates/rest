@@ -1,6 +1,6 @@
 {
     "name":"REST APP Template",
-    "version":"7.0.0",
+    "version":"7.0.0-snapshot",
     "location":"forgeboxStorage",
     "author":"You",
     "slug":"cbtemplate-rest",
@@ -15,9 +15,12 @@
     "bugs":"https://github.com/coldbox-templates/rest/issues",
     "shortDescription":"This template gives you the base for building RESTFul web services with ColdBox",
     "contributors":[],
-    "ignore":[],
+    "ignore":[
+        "changelog.md",
+        ".github/**"
+    ],
     "devDependencies":{
-        "testbox":"^4.6.0",
+        "testbox":"^4.0.0",
         "relax":"^4.1.0",
         "route-visualizer":"*",
         "commandbox-dotenv":"*",
@@ -25,8 +28,8 @@
         "commandbox-cfformat":"*"
     },
     "installPaths":{
-        "coldbox":"coldbox/",
-        "testbox":"testbox/",
+        "coldbox":"lib/vendor/coldbox/",
+        "testbox":"lib/vendor/testbox/",
         "relax":"modules/relax/",
         "cbsecurity":"modules/cbsecurity/",
         "route-visualizer":"modules/route-visualizer/",
@@ -40,12 +43,13 @@
         "cbvalidation":"^4.1.0"
     },
     "scripts":{
-        "postPublish":"!git push --follow-tags",
-        "postInstall":"pathExists .env || cp .env.example .env",
+        "postInstall":"pathExists .env || cp .env.example .env && package set ignore=[]",
         "format":"cfformat run config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc --overwrite",
         "format:check":"cfformat check config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc",
         "format:watch":"cfformat watch path='config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc' settingsPath='.cfformat.json'",
-        "build:docker":"!docker build --no-cache -t my-coldbox-app -f ./Dockerfile ./",
-        "run:docker":"!docker run -it -p 8080:8080 my-coldbox-app"
+        "docker:build":"!docker build --no-cache -t my-coldbox-app -f ./build/Dockerfile ./",
+        "docker:run":"!docker run -it -p 8080:8080 my-coldbox-app",
+        "docker:bash":"!docker run -it my-coldbox-app /bin/bash",
+        "docker:stack":"!docker compose -f build/docker-compose.yaml ${1}"
     }
 }

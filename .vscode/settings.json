@@ -2,12 +2,12 @@
 	"cfml.mappings": [
 		{
 			"logicalPath": "/coldbox",
-			"directoryPath": "./coldbox",
+			"directoryPath": "./lib/vendor/coldbox",
 			"isPhysicalDirectoryPath" :false
 		},
 		{
 			"logicalPath": "/testbox",
-			"directoryPath": "./testbox",
+			"directoryPath": "./lib/vendor/testbox",
 			"isPhysicalDirectoryPath" :false
 		}
 	]
