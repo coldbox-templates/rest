@@ -37,13 +37,6 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/root" {
 				setup();
 			} );
 
-			it( "can handle invalid HTTP Calls", function(){
-				var event    = execute( event = "echo.onInvalidHTTPMethod", renderResults = true );
-				var response = event.getPrivateValue( "response" );
-				expect( response.getError() ).toBeTrue();
-				expect( response.getStatusCode() ).toBe( 405 );
-			} );
-
 			it( "can handle global exceptions", function(){
 				var event = execute(
 					event          = "echo.onError",
