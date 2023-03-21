@@ -16,7 +16,7 @@ jobs:
   tests:
     uses: ./.github/workflows/tests.yml
 
-  formatCheck:
+  check_format:
     name: Checks Source Code Formatting
     runs-on: ubuntu-20.04
     steps:
