@@ -1,6 +1,6 @@
 {
     "name":"REST APP Template",
-    "version":"6.17.0",
+    "version":"6.18.0",
     "location":"forgeboxStorage",
     "author":"You",
     "slug":"cbtemplate-rest",
@@ -16,9 +16,9 @@
     "shortDescription":"This template gives you the base for building RESTFul web services with ColdBox",
     "contributors":[],
     "ignore":[
-		"changelog.md",
+        "changelog.md",
         ".github/**"
-	],
+    ],
     "devDependencies":{
         "testbox":"^4.0.0",
         "relax":"^4.1.0",
