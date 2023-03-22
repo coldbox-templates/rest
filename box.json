@@ -28,8 +28,8 @@
         "commandbox-cfformat":"*"
     },
     "installPaths":{
-        "coldbox":"lib/vendor/coldbox/",
-        "testbox":"lib/vendor/testbox/",
+        "coldbox":"coldbox/",
+        "testbox":"testbox/",
         "relax":"modules/relax/",
         "cbsecurity":"modules/cbsecurity/",
         "route-visualizer":"modules/route-visualizer/",

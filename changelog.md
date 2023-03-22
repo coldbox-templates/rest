@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Regression
+
+- Reverted the `lib/vendor` convention as this is on cb7 not cb6.
+
 ## [6.18.0] - 2023-03-21
 
 ### Added
