@@ -135,7 +135,7 @@ component {
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
 				"contentTypeOptions" : { "enabled" : true },
 				"customHeaders"      : {
-						// Name : value pairs as you see fit.
+					 // Name : value pairs as you see fit.
 				},
 				// Disable Click jacking: X-Frame-Options: DENY OR SAMEORIGIN
 				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
@@ -192,4 +192,5 @@ component {
 			}
 		};
 	}
+
 }
