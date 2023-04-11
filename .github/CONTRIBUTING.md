@@ -6,7 +6,7 @@ Hola amigo! I'm really excited that you are interested in contributing to ColdBo
 - [Bug Reporting](#bug-reporting)
 - [Support Questions](#support-questions)
 - [Security Vulnerabilities](#security-vulnerabilities)
-	- [Language Compatiblity](#language-compatiblity)
+- [Language Compatibility](#language-compatibility)
 - [Coding Styles \& Formatting](#coding-styles--formatting)
 - [CFC Docs With DocBox](#cfc-docs-with-docbox)
 - [Financial Contributions](#financial-contributions)
@@ -47,7 +47,7 @@ If you have any questions on usage, professional support or just ideas to bounch
 
 If you discover a security vulnerability, please send an email to the development team at [security@ortussolutions.com](mailto:security@ortussolutions.com?subject=security) and make sure you report it to the `#security` channel in our Box Team Slack Channel. All security vulnerabilities will be promptly addressed.
 
-### Language Compatiblity
+## Language Compatibility
 
 Please make sure your code runs on the following CFML Engines:
 

@@ -46,12 +46,33 @@ jobs:
     uses: ./.github/workflows/tests.yml
 
   #############################################
+  # Format Source Code
+  #############################################
+  format:
+    name: Auto-Format and Commit
+    runs-on: ubuntu-20.04
+    if: ${{ success() || !inputs.doTests }}
+    needs: [ tests ]
+    steps:
+      - uses: actions/checkout@v3.2.0
+
+      - name: Auto-format
+        uses: Ortus-Solutions/commandbox-action@v1.0.2
+        with:
+          cmd: run-script format
+
+      - name: Commit Format Changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply cfformat changes
+
+  #############################################
   # Build & Publish
   #############################################
   build:
     name: Build & Publish
     if: ${{ success() || !inputs.doTests }}
-    needs: tests
+    needs: [ tests, format ]
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repository
@@ -72,14 +93,20 @@ jobs:
         run: |
           echo "VERSION=`cat box.json | jq '.version' -r`" >> $GITHUB_ENV
 
-      - name: Publish To ForgeBox
-        run: |
-          box forgebox publish --force
-
-      - name: Bump Version
+      - name: Update changelog [unreleased] with latest version release
+        uses: thomaseizinger/keep-a-changelog-new-release@1.3.0
         if: ${{ !inputs.snapshot }}
-        run: |
-          box bump --${{ inputs.versionType }} --!TagVersion
+        with:
+          changelogPath: ./changelog.md
+          tag: v${{ env.VERSION }}
+
+      - name: Commit Changelog
+        uses: EndBug/add-and-commit@v9.1.1
+        if: ${{ !inputs.snapshot }}
+        with:
+          author_name: Github Actions
+          author_email: info@ortussolutions.com
+          message: 'Finalized changelog for v${{ env.VERSION }}'
 
       - name: Tag Version
         uses: rickstaa/action-create-tag@v1.6.1
@@ -87,7 +114,11 @@ jobs:
         with:
           tag: "v${{ env.VERSION }}"
           force_push_tag: true
-          message: "Latest Release"
+          message: "Latest Release v${{ env.VERSION }}"
+
+      - name: Publish To ForgeBox
+        run: |
+          box forgebox publish --force
 
       - name: Create Github Release
         uses: taiki-e/create-gh-release-action@v1.6.2
@@ -98,6 +129,11 @@ jobs:
           changelog: changelog.md
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: refs/tags/v${{ env.VERSION }}
+
+      - name: Bump Version
+        if: ${{ !inputs.snapshot }}
+        run: |
+          box bump --${{ inputs.versionType }} --!TagVersion
 
       - name: Commit Version Bump
         uses: EndBug/add-and-commit@v9.1.1

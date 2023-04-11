@@ -28,8 +28,8 @@
         "commandbox-cfformat":"*"
     },
     "installPaths":{
-        "coldbox":"lib/vendor/coldbox/",
-        "testbox":"lib/vendor/testbox/",
+        "coldbox":"coldbox/",
+        "testbox":"testbox/",
         "relax":"modules/relax/",
         "cbsecurity":"modules/cbsecurity/",
         "route-visualizer":"modules/route-visualizer/",
@@ -44,8 +44,8 @@
     },
     "scripts":{
         "postInstall":"pathExists .env || cp .env.example .env && package set ignore=[]",
-        "format":"cfformat run config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc --overwrite",
-        "format:check":"cfformat check config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc",
+        "format":"cfformat run config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc ./.cfformat.json --overwrite",
+        "format:check":"cfformat check config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc ./.cfformat.json",
         "format:watch":"cfformat watch path='config/,handlers/,interceptors/,models/,modules_app/,tests/specs/,*.cfc' settingsPath='.cfformat.json'",
         "docker:build":"!docker build --no-cache -t my-coldbox-app -f ./build/Dockerfile ./",
         "docker:run":"!docker run -it -p 8080:8080 my-coldbox-app",
