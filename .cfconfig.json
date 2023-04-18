@@ -1,5 +1,4 @@
 {
-	"adminPassword" : "coldbox",
 	"cacheDefaultObject":"coldbox",
     "debuggingEnabled":true,
     "debuggingReportExecutionTimes":false,
