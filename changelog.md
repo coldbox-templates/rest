@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.21.0] - 2023-04-18
+
 ## [6.20.0] - 2023-03-23
 
 -   Updated `.cfconfig.json` to latest standards and properties to assist in development
@@ -43,7 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Docker build and compose consolidation to the `build` folder
 -   Cleanup of `tests` to new standards
 
-[Unreleased]: https://github.com/coldbox-templates/rest/compare/v6.20.0...HEAD
+[Unreleased]: https://github.com/coldbox-templates/rest/compare/v6.21.0...HEAD
+
+[6.21.0]: https://github.com/coldbox-templates/rest/compare/v6.20.0...v6.21.0
 
 [6.20.0]: https://github.com/coldbox-templates/rest/compare/v6.19.0...v6.20.0
 
