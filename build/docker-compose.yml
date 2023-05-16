@@ -46,7 +46,7 @@ services:
       # Store the data locally
       - .db/mysql8/data:/var/lib/mysql
       # You can uncomment and it will seed the db with our prepared sql data
-      #- ./resources/sql/mysql:/docker-entrypoint-initdb.d
+      #- ../resources/sql/mysql:/docker-entrypoint-initdb.d
 
   # ColdBox Site
   coldbox_app:
@@ -57,7 +57,7 @@ services:
     environment:
       CFCONFIG_ADMINPASSWORD: coldbox
       ENVIRONMENT: DEVELOPMENT
-      #JWT_SECRET:
+      # JWT_SECRET: mySecret
       DB_HOST: coldbox_db
       DB_PORT: 4306
       DB_DATABASE: coldbox
@@ -74,4 +74,4 @@ services:
       - "8443:8443"
     # Data & Overrides
     volumes:
-      - ./:/app
+      - ../:/app

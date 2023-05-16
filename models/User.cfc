@@ -1,3 +1,10 @@
+/**
+ * A user in the system.
+ * Implements CBSecurity's : IAuthUser and IJwtSubject interfaces
+ *
+ * - https://coldbox-security.ortusbooks.com/usage/authentication-services#iauthuser
+ * - https://coldbox-security.ortusbooks.com/jwt/jwt-services#jwt-subject-interface
+ */
 component accessors="true" {
 
 	/**
@@ -39,7 +46,7 @@ component accessors="true" {
 	/**
 	 * Constructor
 	 */
-	function init() {
+	function init(){
 		variables.permissions = [];
 
 		return this;
@@ -54,7 +61,7 @@ component accessors="true" {
 	/**
 	 * Check if a user is loaded from the db or not
 	 */
-	boolean function isLoaded() {
+	boolean function isLoaded(){
 		return ( !isNull( variables.id ) && len( variables.id ) );
 	}
 
@@ -62,9 +69,8 @@ component accessors="true" {
 	 * Verify if the user has one or more of the passed in permissions
 	 *
 	 * @permission One or a list of permissions to check for access
-	 *
 	 */
-	boolean function hasPermission( required permission ) {
+	boolean function hasPermission( required permission ){
 		// If no permissions, then it a default value of true comes in
 		if ( isBoolean( arguments.permission ) && arguments.permission ) {
 			return true;
@@ -75,10 +81,19 @@ component accessors="true" {
 		}
 
 		return arguments.permission
-			.filter( function( item ) {
+			.filter( function( item ){
 				return ( variables.permissions.findNoCase( item ) );
 			} )
 			.len();
+	}
+
+	/**
+	 * Verify if the user has one or more of the passed in roles
+	 *
+	 * @role One or a list of roles to check for access
+	 */
+	boolean function hasRole( required role ){
+		return true;
 	}
 
 	/**
@@ -90,14 +105,14 @@ component accessors="true" {
 	/**
 	 * A struct of custom claims to add to the JWT token
 	 */
-	struct function getJwtCustomClaims() {
+	struct function getJwtCustomClaims(){
 		return {};
 	}
 
 	/**
 	 * This function returns an array of all the scopes that should be attached to the JWT token that will be used for authorization.
 	 */
-	array function getJwtScopes() {
+	array function getJwtScopes(){
 		return [];
 	}
 

@@ -1,3 +1,7 @@
+/**
+ * This service provides user authentication, retrieval and much more.
+ * Implements the CBSecurity IUserService: https://coldbox-security.ortusbooks.com/usage/authentication-services#iuserservice
+ */
 component accessors="true" singleton {
 
 	/**
@@ -13,13 +17,16 @@ component accessors="true" singleton {
 	 * Properties
 	 * --------------------------------------------------------------------------
 	 */
-	// TODO: Mock users, remove when coding
+
+	/**
+	 * TODO: Mock users, remove when coding
+	 */
 	property name="mockUsers";
 
 	/**
 	 * Constructor
 	 */
-	function init() {
+	function init(){
 		// We are mocking only 1 user right now, update as you see fit
 		variables.mockUsers = [
 			{
@@ -35,9 +42,10 @@ component accessors="true" singleton {
 	}
 
 	/**
-	 * Construct a new user object via WireBox
+	 * Construct a new user object via WireBox Providers
 	 */
-	User function new() provider="User" {}
+	User function new() provider="User"{
+	}
 
 	/**
 	 * Create a new user in the system
@@ -46,7 +54,7 @@ component accessors="true" singleton {
 	 *
 	 * @return The created user
 	 */
-	User function create( required user ) {
+	User function create( required user ){
 		arguments.user.setId( createUUID() );
 
 		variables.mockUsers.append( {
@@ -55,7 +63,6 @@ component accessors="true" singleton {
 			"lname"    : arguments.user.getLname(),
 			"email"    : arguments.user.getEmail(),
 			"password" : arguments.user.getPassword()
-			
 		} );
 		return arguments.user;
 	}
@@ -66,7 +73,7 @@ component accessors="true" singleton {
 	 * @username The username
 	 * @password The password
 	 */
-	boolean function isValidCredentials( required username, required password ) {
+	boolean function isValidCredentials( required username, required password ){
 		var oTarget = retrieveUserByUsername( arguments.username );
 		if ( !oTarget.isLoaded() ) {
 			return false;
@@ -81,12 +88,12 @@ component accessors="true" singleton {
 	 *
 	 * @return User that implements JWTSubject and/or IAuthUser
 	 */
-	function retrieveUserByUsername( required username ) {
+	function retrieveUserByUsername( required username ){
 		return variables.mockUsers
-			.filter( function( record ) {
+			.filter( function( record ){
 				return arguments.record.email == username;
 			} )
-			.reduce( function( result, record ) {
+			.reduce( function( result, record ){
 				return variables.populator.populateFromStruct(
 					target : arguments.result,
 					memento: arguments.record
@@ -101,12 +108,12 @@ component accessors="true" singleton {
 	 *
 	 * @return User that implements JWTSubject and/or IAuthUser
 	 */
-	User function retrieveUserById( required id ) {
+	User function retrieveUserById( required id ){
 		return variables.mockUsers
-			.filter( function( record ) {
+			.filter( function( record ){
 				return arguments.record.id == id;
 			} )
-			.reduce( function( result, record ) {
+			.reduce( function( result, record ){
 				return variables.populator.populateFromStruct(
 					target : arguments.result,
 					memento: arguments.record

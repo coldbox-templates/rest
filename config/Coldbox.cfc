@@ -1,8 +1,10 @@
-﻿component{
+﻿component {
+
 	/**
 	 * Configure the ColdBox App For Production
+	 * https://coldbox.ortusbooks.com/getting-started/configuration
 	 */
-	function configure() {
+	function configure(){
 		/**
 		 * --------------------------------------------------------------------------
 		 * ColdBox Directives
@@ -22,9 +24,9 @@
 			handlersIndexAutoReload  : true,
 			// Implicit Events
 			defaultEvent             : "Echo.index",
-			requestStartHandler      : "",
+			requestStartHandler      : "Main.onRequestStart",
 			requestEndHandler        : "",
-			applicationStartHandler  : "",
+			applicationStartHandler  : "Main.onAppInit",
 			applicationEndHandler    : "",
 			sessionStartHandler      : "",
 			sessionEndHandler        : "",
@@ -130,160 +132,15 @@
 		 * Each module has it's own configuration structures, so make sure you follow
 		 * the module's instructions on settings.
 		 *
+		 * In ColdBox 7 you can store them in config/modules/{moduleName}.cfc
+		 *
 		 * Each key is the name of the module:
 		 *
 		 * myModule = {
 		 *
 		 * }
 		 */
-		moduleSettings = {
-			/**
-			 * --------------------------------------------------------------------------
-			 * cbSwagger Settings
-			 * --------------------------------------------------------------------------
-			 */
-			cbswagger : {
-				// The route prefix to search.  Routes beginning with this prefix will be determined to be api routes
-				"routes"        : [ "api" ],
-				// Any routes to exclude
-				"excludeRoutes" : [],
-				// The default output format: json or yml
-				"defaultFormat" : "json",
-				// A convention route, relative to your app root, where request/response samples are stored ( e.g. resources/apidocs/responses/[module].[handler].[action].[HTTP Status Code].json )
-				"samplesPath"   : "resources/apidocs",
-				// Information about your API
-				"info"          : {
-					// A title for your API
-					"title"          : "ColdBox REST Template",
-					// A description of your API
-					"description"    : "This API produces amazing results and data.",
-					// A terms of service URL for your API
-					"termsOfService" : "",
-					// The contact email address
-					"contact"        : {
-						"name"  : "API Support",
-						"url"   : "https://www.swagger.io/support",
-						"email" : "info@ortussolutions.com"
-					},
-					// A url to the License of your API
-					"license" : {
-						"name" : "Apache 2.0",
-						"url"  : "https://www.apache.org/licenses/LICENSE-2.0.html"
-					},
-					// The version of your API
-					"version" : "1.0.0"
-				},
-				// Tags
-				"tags"         : [],
-				// https://swagger.io/specification/#externalDocumentationObject
-				"externalDocs" : {
-					"description" : "Find more info here",
-					"url"         : "https://blog.readme.io/an-example-filled-guide-to-swagger-3-2/"
-				},
-				// https://swagger.io/specification/#serverObject
-				"servers" : [
-					{
-						"url"         : "https://mysite.com/v1",
-						"description" : "The main production server"
-					},
-					{
-						"url"         : "http://127.0.0.1:60299",
-						"description" : "The dev server"
-					}
-				],
-				// An element to hold various schemas for the specification.
-				// https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#componentsObject
-				"components" : {
-					// Define your security schemes here
-					// https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject
-					"securitySchemes" : {
-						"ApiKeyAuth" : {
-							"type"        : "apiKey",
-							"description" : "User your JWT as an Api Key for security",
-							"name"        : "x-api-key",
-							"in"          : "header"
-						},
-						"bearerAuth" : {
-							"type"         : "http",
-							"scheme"       : "bearer",
-							"bearerFormat" : "JWT"
-						}
-					}
-				}
-
-				// A default declaration of Security Requirement Objects to be used across the API.
-				// https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securityRequirementObject
-				// Only one of these requirements needs to be satisfied to authorize a request.
-				// Individual operations may set their own requirements with `@security`
-				// "security" : [
-				//	{ "APIKey" : [] },
-				//	{ "UserSecurity" : [] }
-				// ]
-			},
-			/**
-			 * --------------------------------------------------------------------------
-			 * cbSecurity Settings
-			 * --------------------------------------------------------------------------
-			 * We have pre-configured cbSecurity to secure the API using JWT Tokens
-			 */
-			cbAuth     : { "userServiceClass" : "UserService" },
-			cbsecurity : {
-				// The global invalid authentication event or URI or URL to go if an invalid authentication occurs
-				"invalidAuthenticationEvent"  : "echo.onAuthenticationFailure",
-				// Default Auhtentication Action: override or redirect when a user has not logged in
-				"defaultAuthenticationAction" : "override",
-				// The global invalid authorization event or URI or URL to go if an invalid authorization occurs
-				"invalidAuthorizationEvent"   : "echo.onAuthorizationFailure",
-				// Default Authorization Action: override or redirect when a user does not have enough permissions to access something
-				"defaultAuthorizationAction"  : "override",
-				// You can define global security rules here
-				"rules"                       : [],
-				// Use JWT For validation of incoming requests
-				"validator"                   : "JWTService@cbsecurity",
-				// We will use cbAuth for authentication by default
-				"authenticationService"       : "authenticationService@cbauth",
-				// WireBox ID of the user service to use
-				"userService"                 : "UserService",
-				// The name of the variable to use to store an authenticated user in prc scope if using a validator that supports it.
-				"prcUserVariable"             : "oCurrentUser",
-				// Use regular expression matching on the rule match types
-				"useRegex"                    : true,
-				// Force SSL for all relocations
-				"useSSL"                      : false,
-				// Auto load the global security firewall
-				"autoLoadFirewall"            : true,
-				// Activate handler/action based annotation security
-				"handlerAnnotationSecurity"   : true,
-				// Activate security rule visualizer, defaults to false by default
-				"enableSecurityVisualizer"    : false,
-				// JWT Settings
-				"jwt"                         : {
-					// The issuer authority for the tokens, placed in the `iss` claim
-					"issuer"           : "",
-					// The jwt secret encoding key, defaults to getSystemEnv( "JWT_SECRET", "" )
-					"secretKey"        : getSystemSetting( "JWT_SECRET", "" ),
-					// by default it uses the authorization bearer header, but you can also pass a custom one as well.
-					"customAuthHeader" : "x-auth-token",
-					// The expiration in minutes for the jwt tokens
-					"expiration"       : 60,
-					// encryption algorithm to use, valid algorithms are: HS256, HS384, and HS512
-					"algorithm"        : "HS512",
-					// Which claims neds to be present on the jwt token or `TokenInvalidException` upon verification and decoding
-					"requiredClaims"   : [],
-					// The token storage settings
-					"tokenStorage"     : {
-						// enable or not, default is true
-						"enabled"    : true,
-						// A cache key prefix to use when storing the tokens
-						"keyPrefix"  : "cbjwt_",
-						// The driver to use: db, cachebox or a WireBox ID
-						"driver"     : "cachebox",
-						// Driver specific properties
-						"properties" : { "cacheName" : "default" }
-					}
-				}
-			}
-		};
+		moduleSettings = {};
 
 		/**
 		 * --------------------------------------------------------------------------
@@ -317,8 +174,9 @@
 	/**
 	 * Development environment
 	 */
-	function development() {
+	function development(){
 		// coldbox.customErrorTemplate = "/coldbox/system/exceptions/BugReport.cfm"; // static bug reports
 		coldbox.customErrorTemplate = "/coldbox/system/exceptions/Whoops.cfm"; // interactive bug report
 	}
+
 }

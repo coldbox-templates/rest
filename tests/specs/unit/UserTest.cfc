@@ -7,7 +7,7 @@ component extends="coldbox.system.testing.BaseModelTest" model="models.User" {
 
 	/*********************************** LIFE CYCLE Methods ***********************************/
 
-	function beforeAll() {
+	function beforeAll(){
 		super.beforeAll();
 
 		// setup the model
@@ -17,15 +17,15 @@ component extends="coldbox.system.testing.BaseModelTest" model="models.User" {
 		model.init();
 	}
 
-	function afterAll() {
+	function afterAll(){
 		super.afterAll();
 	}
 
 	/*********************************** BDD SUITES ***********************************/
 
-	function run() {
-		describe( "A User", function() {
-			it( "can be created", function() {
+	function run(){
+		describe( "A User", function(){
+			it( "can be created", function(){
 				expect( model ).toBeComponent();
 			} );
 		} );
