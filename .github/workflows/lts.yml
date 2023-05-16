@@ -1,17 +1,19 @@
-name: Build Snapshot Release
+# LTS Flow tests and formats ONLY automatically
+# They are released manually via the `release` workflow
+name: LTS Flow
 
 on:
   push:
     branches:
-      - 'development'
+      - "v*"
 
 jobs:
-  ##########################################################################################
-  # Tests
-  ##########################################################################################
+  #############################################
+  # Tests First baby! We fail, no build :(
+  #############################################
   tests:
-    secrets: inherit
     uses: ./.github/workflows/tests.yml
+    secrets: inherit
 
   ##########################################################################################
   # Format Source Code
@@ -32,13 +34,3 @@ jobs:
         with:
           commit_message: Apply cfformat changes
           push_options: --force
-
-  ##########################################################################################
-  # Release it
-  ##########################################################################################
-  release:
-    uses: ./.github/workflows/release.yml
-    needs: [ tests, format ]
-    secrets: inherit
-    with:
-      snapshot: true
