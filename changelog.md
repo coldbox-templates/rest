@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.2.0] - 2023-05-19
+
 ### Fixed
 
 - Added `allowPublicKeyRetrieval=true` to the `db` connection string
@@ -31,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docker build and compose consolidation to the `build` folder
 - Cleanup of `tests` to new standards
 
-[Unreleased]: https://github.com/coldbox-templates/rest/compare/v7.0.0...HEAD
+[Unreleased]: https://github.com/coldbox-templates/rest/compare/v7.2.0...HEAD
 
-[7.0.0]: https://github.com/coldbox-templates/rest/compare/3745dda6d1039247ea9d035ad9917e2243abb944...v7.0.0
+[7.2.0]: https://github.com/coldbox-templates/rest/compare/v7.0.0...v7.2.0
+
