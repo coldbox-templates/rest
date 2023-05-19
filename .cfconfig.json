@@ -25,7 +25,7 @@
 			"class":"${DB_CLASS}",
 			"connectionLimit":"100",
 			"connectionTimeout":"1",
-			"custom":"useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC&useLegacyDatetimeCode=true&autoReconnect=true&useSSL=false",
+			"custom":"useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC&useLegacyDatetimeCode=true&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true",
 			"database":"${DB_DATABASE}",
 			"dbdriver":"${DB_DRIVER:MySQL}",
 			"dsn":"jdbc:mysql://{host}:{port}/{database}",
