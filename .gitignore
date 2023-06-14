@@ -19,6 +19,6 @@ npm-debug.log
 yarn-error.log
 
 ## Ignored Dependencies
-coldbox/**
-testbox/**
-modules/**
+/coldbox/**
+/testbox/**
+/modules/**
