@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Improved
+
+- Using Latest auto formatting with cfformat
+
 ## [7.4.0] - 2023-06-14
 
 ### Fixed
