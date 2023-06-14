@@ -6,20 +6,27 @@
 			"description": "The User ID",
 			"type": "integer"
 		},
-		"fname": {
+		"firstName": {
 			"description": "The user's first name",
 			"type": "string"
 		},
-		"lname": {
+		"lastName": {
 			"description": "The user's last name",
 			"type": "integer"
 		},
-		"email": {
-			"description": "The user's email",
+		"username": {
+			"description": "The user's username",
 			"type": "string"
 		},
 		"permissions": {
 			"description": "The collection of permissions",
+			"type": "array",
+			"items" : {
+				"type" : "string"
+			}
+		},
+		"roles": {
+			"description": "The collection of roles",
 			"type": "array",
 			"items" : {
 				"type" : "string"

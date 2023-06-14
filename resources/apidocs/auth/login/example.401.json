@@ -1,23 +1,23 @@
 {
     "data": {
-        "LNAME": [
+        "lastName": [
             {
-                "MESSAGE": "The 'LNAME' value is required",
+                "MESSAGE": "The 'lastName' value is required",
                 "VALIDATIONDATA": true,
                 "ERRORMETADATA": {},
                 "REJECTEDVALUE": "",
                 "VALIDATIONTYPE": "Required",
-                "FIELD": "LNAME"
+                "FIELD": "lastName"
             }
         ],
-        "FNAME": [
+        "firstName": [
             {
-                "MESSAGE": "The 'FNAME' value is required",
+                "MESSAGE": "The 'firstName' value is required",
                 "VALIDATIONDATA": true,
                 "ERRORMETADATA": {},
                 "REJECTEDVALUE": "",
                 "VALIDATIONTYPE": "Required",
-                "FIELD": "FNAME"
+                "FIELD": "firstName"
             }
         ],
         "PASSWORD": [
@@ -30,14 +30,14 @@
                 "FIELD": "PASSWORD"
             }
         ],
-        "EMAIL": [
+        "USERNAME": [
             {
-                "MESSAGE": "The 'EMAIL' value is required",
+                "MESSAGE": "The 'USERNAME' value is required",
                 "VALIDATIONDATA": true,
                 "ERRORMETADATA": {},
                 "REJECTEDVALUE": "",
                 "VALIDATIONTYPE": "Required",
-                "FIELD": "EMAIL"
+                "FIELD": "USERNAME"
             }
         ]
     },

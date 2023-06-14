@@ -48,7 +48,7 @@ We also give you some utility functions for RESTFul building:
 
 By default the base handlers leverages ColdBox method security via the `this.allowedMethods` structure:
 
-```
+```js
 this.allowedMethods = {
     "index"     : METHODS.GET,
     "get"       : METHODS.GET,
@@ -62,7 +62,7 @@ this.allowedMethods = {
 
 The base handler contains a static construct called `METHODS` that implements basic HTTP Methods that you can use for messages and allowed methods.
 
-```
+```js
 METHODS = {
     "HEAD"      : "HEAD",
     "GET"       : "GET",
@@ -77,7 +77,7 @@ METHODS = {
 
 The base handler contains a static construct called `STATUS` that implements basic HTTP status codes you can use:
 
-```
+```js
 STATUS = {
     "CREATED"               : 201,
     "ACCEPTED"              : 202,
@@ -139,13 +139,13 @@ run-script docker:stack down
 
 We have included two vscode helpers for you:
 
-* `.vscode/settings.json` - Includes introspection helpers for ColdBox and TestBox
-* `.vscode/tasks.json` - Tasks to assist in running a Test Bundle and a CommandBox Task
+- `.vscode/settings.json` - Includes introspection helpers for ColdBox and TestBox
+- `.vscode/tasks.json` - Tasks to assist in running a Test Bundle and a CommandBox Task
 
 We have included two custom tasks:
 
-* `Run CommandBox Task` - Open a CommandBox task and run it
-* `Run TestBox Bundle` - Open the bundle you want to test and then run it
+- `Run CommandBox Task` - Open a CommandBox task and run it
+- `Run TestBox Bundle` - Open the bundle you want to test and then run it
 
 To run the custom tasks open the command palette and choose `Tasks: Run Build Task` or the shortcut `⇧⌘B`
 
@@ -153,18 +153,18 @@ To run the custom tasks open the command palette and choose `Tasks: Run Build Ta
 
 ColdBox *Hierarchical* MVC is the de-facto enterprise-level [HMVC](https://en.wikipedia.org/wiki/Hierarchical_model%E2%80%93view%E2%80%93controller) framework for ColdFusion (CFML) developers. It's professionally backed, conventions-based, modular, highly extensible, and productive. Getting started with ColdBox is quick and painless.  ColdBox takes the pain out of development by giving you a standardized methodology for modern ColdFusion (CFML) development with features such as:
 
-* [Conventions instead of configuration](https://coldbox.ortusbooks.com/getting-started/conventions)
-* [Modern URL routing](https://coldbox.ortusbooks.com/the-basics/routing)
-* [RESTFul APIs](https://coldbox.ortusbooks.com/the-basics/event-handlers/rendering-data)
-* [A hierarchical approach to MVC using ColdBox Modules](https://coldbox.ortusbooks.com/hmvc/modules)
-* [Event-driven programming](https://coldbox.ortusbooks.com/digging-deeper/interceptors)
-* [Async and Parallel programming constructs](https://coldbox.ortusbooks.com/digging-deeper/promises-async-programming)
-* [Integration & Unit Testing](https://coldbox.ortusbooks.com/testing/testing-coldbox-applications)
-* [Included dependency injection](https://wirebox.ortusbooks.com)
-* [Caching engine and API](https://cachebox.ortusbooks.com)
-* [Logging engine](https://logbox.ortusbooks.com)
-* [An extensive eco-system](https://forgebox.io)
-* Much More
+- [Conventions instead of configuration](https://coldbox.ortusbooks.com/getting-started/conventions)
+- [Modern URL routing](https://coldbox.ortusbooks.com/the-basics/routing)
+- [RESTFul APIs](https://coldbox.ortusbooks.com/the-basics/event-handlers/rendering-data)
+- [A hierarchical approach to MVC using ColdBox Modules](https://coldbox.ortusbooks.com/hmvc/modules)
+- [Event-driven programming](https://coldbox.ortusbooks.com/digging-deeper/interceptors)
+- [Async and Parallel programming constructs](https://coldbox.ortusbooks.com/digging-deeper/promises-async-programming)
+- [Integration & Unit Testing](https://coldbox.ortusbooks.com/testing/testing-coldbox-applications)
+- [Included dependency injection](https://wirebox.ortusbooks.com)
+- [Caching engine and API](https://cachebox.ortusbooks.com)
+- [Logging engine](https://logbox.ortusbooks.com)
+- [An extensive eco-system](https://forgebox.io)
+- Much More
 
 ## Learning ColdBox
 

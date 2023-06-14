@@ -30,11 +30,13 @@ component accessors="true" singleton {
 		// We are mocking only 1 user right now, update as you see fit
 		variables.mockUsers = [
 			{
-				"id"       : 1,
-				"fname"    : "admin",
-				"lname"    : "admin",
-				"email"    : "admin@coldbox.org",
-				"password" : "admin"
+				"id"          : 1,
+				"firstName"   : "admin",
+				"lastName"    : "admin",
+				"username"    : "admin",
+				"password"    : "admin",
+				"roles"       : [],
+				"permissions" : []
 			}
 		];
 
@@ -58,11 +60,13 @@ component accessors="true" singleton {
 		arguments.user.setId( createUUID() );
 
 		variables.mockUsers.append( {
-			"id"       : arguments.user.getId(),
-			"fname"    : arguments.user.getFname(),
-			"lname"    : arguments.user.getLname(),
-			"email"    : arguments.user.getEmail(),
-			"password" : arguments.user.getPassword()
+			"id"          : arguments.user.getId(),
+			"firstName"   : arguments.user.getFirstName(),
+			"lastName"    : arguments.user.getLastName(),
+			"username"    : arguments.user.getUsername(),
+			"password"    : arguments.user.getPassword(),
+			"roles"       : arguments.user.getRoles(),
+			"permissions" : arguments.user.getPermissions()
 		} );
 		return arguments.user;
 	}
@@ -91,12 +95,13 @@ component accessors="true" singleton {
 	function retrieveUserByUsername( required username ){
 		return variables.mockUsers
 			.filter( function( record ){
-				return arguments.record.email == username;
+				return arguments.record.username == username;
 			} )
 			.reduce( function( result, record ){
 				return variables.populator.populateFromStruct(
-					target : arguments.result,
-					memento: arguments.record
+					target           : arguments.result,
+					memento          : arguments.record,
+					ignoreTargetLists: true
 				);
 			}, new () );
 	}
@@ -115,8 +120,9 @@ component accessors="true" singleton {
 			} )
 			.reduce( function( result, record ){
 				return variables.populator.populateFromStruct(
-					target : arguments.result,
-					memento: arguments.record
+					target           : arguments.result,
+					memento          : arguments.record,
+					ignoreTargetLists: true
 				);
 			}, new () );
 	}

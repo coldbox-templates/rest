@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Vscode mappings for cbsecurity
+- Tons of inline docs for module configurations so newbies can find what they need
+- Leveraging the auth `User` of the `cbsecurity` module, so we can reuse what's already been built.
+
 ## [7.2.0] - 2023-05-19
 
 ### Fixed

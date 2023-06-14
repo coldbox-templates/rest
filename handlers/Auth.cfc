@@ -15,10 +15,11 @@ component extends="coldbox.system.RestHandler" {
 	 * @response    -401     ~auth/login/responses.json##401
 	 */
 	function login( event, rc, prc ){
-		param rc.email    = "";
+		param rc.username = "";
 		param rc.password = "";
 
-		var token = jwtAuth().attempt( rc.email, rc.password );
+		// This can throw a InvalidCredentials exception which is picked up by the REST handler
+		var token = jwtAuth().attempt( rc.username, rc.password );
 
 		event
 			.getResponse()
@@ -37,13 +38,13 @@ component extends="coldbox.system.RestHandler" {
 	 * @response    -400     ~auth/register/responses.json##400
 	 */
 	function register( event, rc, prc ){
-		param rc.fname    = "";
-		param rc.lname    = "";
-		param rc.email    = "";
-		param rc.password = "";
+		param rc.firstName = "";
+		param rc.lastName  = "";
+		param rc.username  = "";
+		param rc.password  = "";
 
 		// Populate, Validate, Create a new user
-		prc.oUser = userService.create( validateOrFail( populateModel( "User" ) ) );
+		prc.oUser = userService.create( populateModel( "User" ).validateOrFail() );
 
 		// Log them in if it was created!
 		event

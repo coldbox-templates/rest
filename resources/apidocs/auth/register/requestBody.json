@@ -6,22 +6,22 @@
             "schema": {
                 "type": "object",
                 "required": [
-					"fname",
-					"lname",
-					"email",
+					"firstName",
+					"lastName",
+					"username",
                     "password"
                 ],
                 "properties": {
-					"fname": {
+					"firstName": {
                         "description": "The user's first name",
                         "type": "string"
 					},
-					"lname": {
+					"lastName": {
                         "description": "The user's last name",
                         "type": "string"
 					},
-                    "email": {
-                        "description": "The email to use for login in",
+                    "username": {
+                        "description": "The username to use for login in",
                         "type": "string"
                     },
                     "password": {
@@ -30,9 +30,9 @@
                     }
                 },
                 "example": {
-					"fname" : "luis",
-					"lname" : "majano",
-                    "email": "user@email.org",
+					"firstName" : "luis",
+					"lastName" : "majano",
+                    "username": "user",
                     "password": "test"
                 }
             }

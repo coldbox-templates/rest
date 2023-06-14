@@ -27,29 +27,29 @@ component extends="coldbox.system.testing.BaseTestCase" autowire {
 			} );
 
 			story( "I want to authenticate a user and receive a JWT token", function(){
-				given( "a valid email and password", function(){
+				given( "a valid username and password", function(){
 					then( "I will be authenticated and will receive the JWT token", function(){
 						// Use a user in the seeded db
 						var event = this.post(
 							route  = "/api/login",
-							params = { email : "admin@coldbox.org", password : "admin" }
+							params = { username : "admin", password : "admin" }
 						);
 						var response = event.getPrivateValue( "Response" );
 						expect( response.getError() ).toBeFalse( response.getMessages().toString() );
 						expect( response.getData() ).toBeString();
 
-						debug( response.getData() );
+						// debug( response.getData() );
 
 						var decoded = jwtService.decode( response.getData() );
 						expect( decoded.sub ).toBe( 1 );
 						expect( decoded.exp ).toBeGTE( dateAdd( "h", 1, decoded.iat ) );
 					} );
 				} );
-				given( "invalid email and password", function(){
+				given( "invalid username and password", function(){
 					then( "I will receive a 401 exception ", function(){
 						var event = this.post(
 							route  = "/api/login",
-							params = { email : "invalid", password : "invalid" }
+							params = { username : "invalid", password : "invalid" }
 						);
 						var response = event.getPrivateValue( "Response" );
 						expect( response.getError() ).toBeTrue();
@@ -58,7 +58,6 @@ component extends="coldbox.system.testing.BaseTestCase" autowire {
 				} );
 			} );
 
-
 			story( "I want to register into the system", function(){
 				given( "valid registration details", function(){
 					then( "I should register, log in and get a token", function(){
@@ -66,17 +65,17 @@ component extends="coldbox.system.testing.BaseTestCase" autowire {
 						var event = this.post(
 							route  = "/api/register",
 							params = {
-								fname    : "luis",
-								lname    : "majano",
-								email    : "lmajano@coldbox.org",
-								password : "lmajano"
+								firstName : "luis",
+								lastName  : "majano",
+								username  : "lmajano@coldbox.org",
+								password  : "lmajano"
 							}
 						);
 						var response = event.getPrivateValue( "Response" );
 						expect( response.getError() ).toBeFalse( response.getMessages().toString() );
 						expect( response.getData() ).toHaveKey( "token,user" );
 
-						debug( response.getData() );
+						// debug( response.getData() );
 
 						var decoded = jwtService.decode( response.getData().token );
 						expect( decoded.sub ).toBe( response.getData().user.id );
@@ -85,11 +84,9 @@ component extends="coldbox.system.testing.BaseTestCase" autowire {
 				} );
 				given( "invalid registration details", function(){
 					then( "I should get an error message", function(){
-						var event = this.post(
-							route  = "/api/register",
-							params = { email : "invalid", password : "invalid" }
-						);
+						var event    = this.post( route = "/api/register", params = {} );
 						var response = event.getPrivateValue( "Response" );
+						// debug( response.getMemento() );
 						expect( response.getError() ).toBeTrue();
 						expect( response.getStatusCode() ).toBe( 400 );
 					} );
@@ -100,7 +97,7 @@ component extends="coldbox.system.testing.BaseTestCase" autowire {
 				given( "a valid incoming jwt token", function(){
 					then( "my token should become invalidated and I will be logged out", function(){
 						// Log in first to get a valid token to logout with
-						var token   = jwtService.attempt( "admin@coldbox.org", "admin" );
+						var token   = jwtService.attempt( "admin", "admin" );
 						var payload = jwtService.decode( token );
 						expect( cbauth.isLoggedIn() ).toBeTrue();
 
@@ -120,7 +117,7 @@ component extends="coldbox.system.testing.BaseTestCase" autowire {
 
 						var response = event.getPrivateValue( "Response" );
 						expect( response.getError() ).toBeTrue( response.getMessages().toString() );
-						debug( response.getStatusCode( 500 ) );
+						// debug( response.getStatusCode( 500 ) );
 					} );
 				} );
 			} );
