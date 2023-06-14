@@ -1,4 +1,5 @@
 component {
+
 	/**
 	 * Configure CBAuth for operation
 	 * https://cbauth.ortusbooks.com/installation-and-usage#configuration
