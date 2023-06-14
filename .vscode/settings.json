@@ -9,6 +9,11 @@
 			"logicalPath": "/testbox",
 			"directoryPath": "./testbox",
 			"isPhysicalDirectoryPath" :false
+		},
+		{
+			"logicalPath": "/cbsecurity",
+			"directoryPath": "./modules/cbsecurity",
+			"isPhysicalDirectoryPath" :false
 		}
 	]
 }

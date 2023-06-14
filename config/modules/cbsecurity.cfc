@@ -6,6 +6,8 @@ component {
 			 * --------------------------------------------------------------------------
 			 * Authentication Services
 			 * --------------------------------------------------------------------------
+			 * https://coldbox-security.ortusbooks.com/getting-started/configuration/authentication
+			 *
 			 * Here you will configure which service is in charge of providing authentication for your application.
 			 * By default we leverage the cbauth module which expects you to connect it to a database via your own User Service.
 			 *
@@ -15,15 +17,34 @@ component {
 			 * - custom : Any other service that adheres to our IAuthService interface
 			 */
 			authentication : {
-				// The WireBox ID of the authentication service to use which must adhere to the cbsecurity.interfaces.IAuthService interface.
+				// The WireBox ID of the auth service to use which must adhere to the cbsecurity.interfaces.IAuthService interface.
 				"provider"        : "authenticationService@cbauth",
 				// The name of the variable to use to store an authenticated user in prc scope on all incoming authenticated requests
 				"prcUserVariable" : "oCurrentUser"
 			},
 			/**
 			 * --------------------------------------------------------------------------
+			 * Basic Auth
+			 * --------------------------------------------------------------------------
+			 * https://coldbox-security.ortusbooks.com/getting-started/configuration/basic-auth
+			 *
+			 * If you are using the basicAuth authentication provider, then you can configure it here, else ignore or remove.
+			 */
+			basicAuth : {
+				// Hashing algorithm to use
+				hashAlgorithm  : "SHA-512",
+				// Iterates the number of times the hash is computed to create a more computationally intensive hash.
+				hashIterations : 5,
+				// User storage: The `key` is the username. The value is the user credentials that can include
+				// { roles: "", permissions : "", firstName : "", lastName : "", password : "" }
+				users          : {}
+			},
+			/**
+			 * --------------------------------------------------------------------------
 			 * Firewall Settings
 			 * --------------------------------------------------------------------------
+			 * https://coldbox-security.ortusbooks.com/getting-started/configuration/firewall
+			 *
 			 * The firewall is used to block/check access on incoming requests via security rules or via annotation on handler actions.
 			 * Here you can configure the operation of the firewall and especially what Validator will be in charge of verifying authentication/authorization
 			 * during a matched request.
@@ -69,7 +90,14 @@ component {
 					"provider" : { "source" : "", "properties" : {} }
 				}
 			},
-			// JWT Settings
+			/**
+			 * --------------------------------------------------------------------------
+			 * Json Web Tokens
+			 * --------------------------------------------------------------------------
+			 * https://coldbox-security.ortusbooks.com/getting-started/configuration/jwt
+			 *
+			 * Here you configure how JSON Web Tokens are created, validated and stored.
+			 */
 			jwt : {
 				// The issuer authority for the tokens, placed in the `iss` claim
 				issuer                     : "",
@@ -113,6 +141,8 @@ component {
 			 * --------------------------------------------------------------------------
 			 * Security Headers
 			 * --------------------------------------------------------------------------
+			 * https://coldbox-security.ortusbooks.com/getting-started/configuration/security-headers
+			 *
 			 * This section is the way to configure cbsecurity for header detection, inspection and setting for common
 			 * security exploits like XSS, ClickJacking, Host Spoofing, IP Spoofing, Non SSL usage, HSTS and much more.
 			 */
@@ -181,6 +211,8 @@ component {
 			 * --------------------------------------------------------------------------
 			 * Security Visualizer
 			 * --------------------------------------------------------------------------
+			 * https://coldbox-security.ortusbooks.com/getting-started/configuration/visualizer
+			 *
 			 * This is a debugging panel that when active, a developer can visualize security settings and more.
 			 * You can use the `securityRule` to define what rule you want to use to secure the visualizer but make sure the `secured` flag is turned to true.
 			 * You don't have to specify the `secureList` key, we will do that for you.
@@ -189,6 +221,29 @@ component {
 				"enabled"      : false,
 				"secured"      : false,
 				"securityRule" : {}
+			},
+			/**
+			 * --------------------------------------------------------------------------
+			 * Cross Site Request Forgery (CSRF)
+			 * --------------------------------------------------------------------------
+			 * https://coldbox-security.ortusbooks.com/getting-started/configuration/csrf
+			 *
+			 * This section is the way to configure cbsecurity for CSRF detection and mitigation.
+			 */
+			csrf : {
+				// By default we load up an interceptor that verifies all non-GET incoming requests against the token validations
+				enableAutoVerifier     : false,
+				// A list of events to exclude from csrf verification, regex allowed: e.g. stripe\..*
+				verifyExcludes         : [],
+				// By default, all csrf tokens have a life-span of 30 minutes. After 30 minutes, they expire and we aut-generate new ones.
+				// If you do not want expiring tokens, then set this value to 0
+				rotationTimeout        : 30,
+				// Enable the /cbcsrf/generate endpoint to generate cbcsrf tokens for secured users.
+				enableEndpoint         : false,
+				// The WireBox mapping to use for the CacheStorage
+				cacheStorage           : "CacheStorage@cbstorages",
+				// Enable/Disable the cbAuth login/logout listener in order to rotate keys
+				enableAuthTokenRotator : true
 			}
 		};
 	}

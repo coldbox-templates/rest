@@ -1,10 +1,11 @@
 {
     "data": {
-        "lname": "admin",
+        "lastName": "admin",
         "permissions": [],
-        "fname": "admin",
+		"roles": [],
+        "firstName": "admin",
         "id": 1,
-        "email": "admin@coldbox.org"
+        "username": "admin"
     },
     "error": false,
     "pagination": {},

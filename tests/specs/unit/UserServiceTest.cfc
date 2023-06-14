@@ -36,7 +36,7 @@ component extends="coldbox.system.testing.BaseTestCase" {
 			} );
 
 			it( "can get a valid mock user by username", function(){
-				var oUser = model.retrieveUserByUsername( "admin@coldbox.org" );
+				var oUser = model.retrieveUserByUsername( "admin" );
 				expect( oUser.getId() ).toBe( 1 );
 				expect( oUser.isLoaded() ).toBeTrue();
 			} );
@@ -48,12 +48,12 @@ component extends="coldbox.system.testing.BaseTestCase" {
 			} );
 
 			it( "can validate valid credentials", function(){
-				var result = model.isValidCredentials( "admin@coldbox.org", "admin" );
+				var result = model.isValidCredentials( "admin", "admin" );
 				expect( result ).toBeTrue();
 			} );
 
 			it( "can validate invalid credentials", function(){
-				var result = model.isValidCredentials( "admin@dd.org", "dd" );
+				var result = model.isValidCredentials( "badadmin", "dd" );
 				expect( result ).toBeFalse();
 			} );
 		} );

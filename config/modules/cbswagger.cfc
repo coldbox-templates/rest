@@ -1,5 +1,9 @@
 component {
 
+	/**
+	 * CBSwagger Configuration
+	 * https://github.com/coldbox-modules/cbswagger
+	 */
 	function configure(){
 		return {
 			// The route prefix to search.  Routes beginning with this prefix will be determined to be api routes
