@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.3.0] - 2023-06-14
+
 ### Added
 
 - Vscode mappings for cbsecurity
@@ -39,7 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docker build and compose consolidation to the `build` folder
 - Cleanup of `tests` to new standards
 
-[Unreleased]: https://github.com/coldbox-templates/rest/compare/v7.2.0...HEAD
+[Unreleased]: https://github.com/coldbox-templates/rest/compare/v7.3.0...HEAD
+
+[7.3.0]: https://github.com/coldbox-templates/rest/compare/v7.2.0...v7.3.0
 
 [7.2.0]: https://github.com/coldbox-templates/rest/compare/v7.0.0...v7.2.0
-
