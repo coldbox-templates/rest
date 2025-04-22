@@ -20,9 +20,7 @@
         {
             "code": "ARG_VAR_CONFLICT"
         },
-        {
-            "code": "ARG_VAR_MIXED"
-        },
+
         {
             "code": "CFQUERYPARAM_REQ"
         },
