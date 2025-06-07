@@ -7,7 +7,7 @@ WEB-INF
 .env
 .engine/**
 .cbfs/**
-build/.db/**
+docker/.db/**
 
 # logs + tests
 logs/**
@@ -19,6 +19,7 @@ npm-debug.log
 yarn-error.log
 
 ## Ignored Dependencies
+effective-pom.xml
 /coldbox/**
 /testbox/**
 /modules/**
