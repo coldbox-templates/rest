@@ -10,7 +10,7 @@
 		<!--
 			Add all the Java dependencies you need here.
 			You can search for more here: https://central.sonatype.com/
-			All Dependencies for the BoxLang application will be stored under the lib/java folder
+			All Dependencies for the BoxLang application will be stored under the lib/ folder
 			Just Run: mvn install to install all dependencies
 		-->
 
