@@ -24,7 +24,9 @@
         "relax":"^4.1.0",
         "route-visualizer":"*",
         "commandbox-boxlang":"*",
-        "commandbox-cfformat":"*"
+        "commandbox-cfformat":"*",
+		"coldbox-cli":"*",
+		"testbox-cli":"*"
     },
 	"dependencies":{
         "coldbox":"be",
