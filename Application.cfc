@@ -58,7 +58,7 @@ component {
 	 * - app : Quick reference to root application
 	 * - coldbox : Where ColdBox library is installed
 	 */
-	this.mappings[ "/app" ]   = COLDBOX_APP_ROOT_PATH;
+	this.mappings[ "/app" ]     = COLDBOX_APP_ROOT_PATH;
 	this.mappings[ "/coldbox" ] = COLDBOX_APP_ROOT_PATH & "coldbox";
 
 	/**
