@@ -1,7 +1,19 @@
 {
+	"name":"coldbox-start-template",
+	"app":{
+        "cfengine":"boxlang@1"
+	},
+	"jvm":{
+        "heapSize":"512",
+        "javaVersion":"openjdk21_jre",
+        "args":"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8888"
+    },
     "web":{
         "rewrites":{
-            "enable":true
+            "enable": true
         }
+    },
+	"scripts":{
+        "onServerInitialInstall":"install bx-compat-cfml,bx-esapi"
     }
 }
