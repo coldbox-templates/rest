@@ -101,7 +101,7 @@ STATUS.INTERNAL_ERROR (500)
 
 ```cfml
 component extends="coldbox.system.RestHandler" {
-    
+
     property name="userService" inject="UserService";
 
     /**
@@ -194,20 +194,20 @@ component extends="coldbox.system.testing.BaseTestCase" appMapping="/app" {
             it("can handle an echo", function(){
                 // Mock HTTP method
                 prepareMock(getRequestContext()).$("getHTTPMethod", "GET");
-                
+
                 var event = execute(route="echo/index");
                 var response = event.getPrivateValue("response");
-                
+
                 expect(response.getError()).toBeFalse();
                 expect(response.getData()).toBe("Welcome to my ColdBox RESTFul Service");
             });
 
             it("handles missing actions with 404", function(){
                 prepareMock(getRequestContext()).$("getHTTPMethod", "GET");
-                
+
                 var event = execute(route="echo/bogus");
                 var response = event.getPrivateValue("response");
-                
+
                 expect(response.getError()).toBeTrue();
                 expect(response.getStatusCode()).toBe(404);
             });
@@ -254,18 +254,18 @@ component {
     function configure(){
         // Simple routes
         get("/api/echo", "Echo.index");
-        
+
         // Authentication routes
         post("/api/login", "Auth.login");
         post("/api/register", "Auth.register");
         post("/api/logout", "Auth.logout");
-        
+
         // Secured routes (checked by CBSecurity)
         get("/api/whoami", "Echo.whoami");
-        
+
         // RESTful resources (generates 7 routes)
         resources("users");
-        
+
         // API versioning via groups
         group({prefix: "/api/v1"}, function(){
             resources("products");
@@ -296,14 +296,14 @@ function login(event, rc, prc){}
 
 ```cfml
 component extends="coldbox.system.RestHandler" {
-    
+
     // Inject services
     property name="userService" inject="UserService";
-    
+
     // Inject from modules
     property name="log" inject="logbox:logger:{this}";
     property name="cache" inject="cachebox:default";
-    
+
     // Provider injection (lazy)
     property name="userProvider" inject="provider:User";
 }
