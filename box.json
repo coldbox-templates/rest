@@ -17,7 +17,11 @@
     "contributors":[],
     "ignore":[
         "changelog.md",
-        ".github/**"
+		".github/ISSUE_TEMPLATE/*",
+		".github/workflows/*",
+		".github/CONTRIBUTING.md",
+		".github/FUNDING.YML",
+		".github/PULL_REQUEST_TEMPLATE.md"
     ],
     "devDependencies":{
         "testbox":"^6.0.0",
