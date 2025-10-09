@@ -1,5 +1,5 @@
 {
-	"name":"coldbox-start-template",
+	"name":"coldbox-rest-template",
 	"app":{
         "cfengine":"boxlang@1"
 	},
