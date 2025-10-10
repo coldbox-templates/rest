@@ -1,6 +1,6 @@
 {
     "name":"REST APP Template",
-    "version":"8.0.0",
+    "version":"8.1.0",
     "location":"forgeboxStorage",
     "author":"You",
     "slug":"cbtemplate-rest",
@@ -17,11 +17,11 @@
     "contributors":[],
     "ignore":[
         "changelog.md",
-		".github/ISSUE_TEMPLATE",
-		".github/workflows/*",
-		".github/CONTRIBUTING.md",
-		".github/FUNDING.YML",
-		".github/PULL_REQUEST_TEMPLATE.md"
+        ".github/ISSUE_TEMPLATE",
+        ".github/workflows/*",
+        ".github/CONTRIBUTING.md",
+        ".github/FUNDING.YML",
+        ".github/PULL_REQUEST_TEMPLATE.md"
     ],
     "devDependencies":{
         "testbox":"^6.0.0",
@@ -30,7 +30,7 @@
         "commandbox-boxlang":"*",
         "commandbox-cfformat":"*"
     },
-	"dependencies":{
+    "dependencies":{
         "coldbox":"^8.0.0",
         "cbsecurity":"^3.0.0",
         "mementifier":"^3.3.0",
