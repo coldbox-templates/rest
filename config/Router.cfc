@@ -8,14 +8,6 @@ component {
 	function configure(){
 		/**
 		 * --------------------------------------------------------------------------
-		 * Router Configuration Directives
-		 * --------------------------------------------------------------------------
-		 * https://coldbox.ortusbooks.com/the-basics/routing/application-router#configuration-methods
-		 */
-		setFullRewrites( true );
-
-		/**
-		 * --------------------------------------------------------------------------
 		 * App Routes
 		 * --------------------------------------------------------------------------
 		 * Here is where you can register the routes for your web application!

@@ -1,6 +1,6 @@
 {
     "name":"REST APP Template",
-    "version":"7.7.0",
+    "version":"8.0.0",
     "location":"forgeboxStorage",
     "author":"You",
     "slug":"cbtemplate-rest",
@@ -17,7 +17,11 @@
     "contributors":[],
     "ignore":[
         "changelog.md",
-        ".github/**"
+		".github/ISSUE_TEMPLATE",
+		".github/workflows/*",
+		".github/CONTRIBUTING.md",
+		".github/FUNDING.YML",
+		".github/PULL_REQUEST_TEMPLATE.md"
     ],
     "devDependencies":{
         "testbox":"^6.0.0",
@@ -25,6 +29,12 @@
         "route-visualizer":"*",
         "commandbox-boxlang":"*",
         "commandbox-cfformat":"*"
+    },
+	"dependencies":{
+        "coldbox":"^8.0.0",
+        "cbsecurity":"^3.0.0",
+        "mementifier":"^3.3.0",
+        "cbvalidation":"^4.1.0"
     },
     "installPaths":{
         "coldbox":"coldbox/",
@@ -34,12 +44,6 @@
         "route-visualizer":"modules/route-visualizer/",
         "mementifier":"modules/mementifier/",
         "cbvalidation":"modules/cbvalidation/"
-    },
-    "dependencies":{
-        "coldbox":"^7.0.0",
-        "cbsecurity":"^3.0.0",
-        "mementifier":"^3.3.0",
-        "cbvalidation":"^4.1.0"
     },
     "scripts":{
         "postInstall":"pathExists .env || cp .env.example .env && package set ignore=[]",
