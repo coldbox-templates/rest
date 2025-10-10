@@ -31,7 +31,7 @@
         "commandbox-cfformat":"*"
     },
 	"dependencies":{
-        "coldbox":"be",
+        "coldbox":"^8.0.0",
         "cbsecurity":"^3.0.0",
         "mementifier":"^3.3.0",
         "cbvalidation":"^4.1.0"
