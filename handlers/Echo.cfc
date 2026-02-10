@@ -29,7 +29,7 @@ component extends="coldbox.system.RestHandler" {
 	 * A secured route that shows you your information
 	 *
 	 * @x-route          (GET) /api/whoami
-	 * @security bearerAuth,ApiKeyAuth
+	 * @security         bearerAuth,ApiKeyAuth
 	 * @response-default ~echo/whoami/responses.json##200
 	 * @response-401     ~echo/whoami/responses.json##401
 	 */
