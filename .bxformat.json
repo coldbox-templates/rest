@@ -1,12 +1,12 @@
 {
   "indentSize" : 4,
   "tabIndent" : true,
-  "maxLineLength" : 115,
+  "maxLineLength" : 120,
   "newLine" : "\n",
   "singleQuote" : false,
   "preserveStringQuotes" : false,
   "alignConsecutiveAssignments" : true,
-  "alignConsecutiveProperties" : true,
+  "alignConsecutiveProperties" : false,
   "bracketPadding" : true,
   "parensPadding" : true,
   "binaryOperatorsPadding" : true,
@@ -17,9 +17,9 @@
     "padding" : true,
     "empty_padding" : false,
     "quote_keys" : false,
-    "separator" : " : ",
+    "separator" : ": ",
     "multiline" : {
-      "element_count" : 2,
+      "element_count" : 5,
       "comma_dangle" : false,
       "leading_comma" : {
         "enabled" : false,
@@ -30,13 +30,13 @@
   },
   "property" : {
     "multiline" : {
-      "element_count" : 3,
+      "element_count" : 5,
       "comma_dangle" : false,
       "leading_comma" : {
         "enabled" : false,
         "padding" : true
       },
-      "min_length" : 30
+      "min_length" : 80
     },
     "key_value" : {
       "padding" : false
@@ -46,13 +46,13 @@
     "padding" : true,
     "empty_padding" : false,
     "multiline" : {
-      "element_count" : 2,
+      "element_count" : 5,
       "comma_dangle" : false,
       "leading_comma" : {
         "enabled" : false,
         "padding" : true
       },
-      "min_length" : 50
+      "min_length" : 60
     }
   },
   "for_loop_semicolons" : {
@@ -64,7 +64,7 @@
       "padding" : true,
       "empty_padding" : false,
       "comma_dangle" : false,
-      "multiline_count" : 3,
+      "multiline_count" : 5,
       "multiline_length" : 50
     },
     "arrow" : {
@@ -76,7 +76,7 @@
     "empty_padding" : false,
     "comma_dangle" : false,
     "multiline_count" : 3,
-    "multiline_length" : 50
+    "multiline_length" : 60
   },
   "braces" : {
     "style" : "same-line",
@@ -99,12 +99,12 @@
   },
   "template" : {
     "component_prefix" : "bx",
-    "indent_content" : true,
+    "indent_content" : false,
     "single_attribute_per_line" : false,
     "self_closing" : false
   },
   "import" : {
-    "sort" : false,
+    "sort" : true,
     "group" : false
   },
   "comments" : {
@@ -116,7 +116,7 @@
     "member_spacing" : 1,
     "property_order" : "preserve",
     "method_order" : "preserve",
-    "method_grouping" : false
+    "method_grouping" : true
   },
   "sql" : {
     "uppercase_keywords" : true,
