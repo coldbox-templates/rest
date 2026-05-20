@@ -5,6 +5,11 @@ on:
     branches:
       - 'development'
 
+# Unique group name per workflow-branch/tag combo
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   ##########################################################################################
   # Tests
@@ -16,32 +21,33 @@ jobs:
   ##########################################################################################
   # Format Source Code
   ##########################################################################################
-  format:
-    name: Code Auto-Formatting
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+  # Will enable once we have more testing in.
+  # format:
+  #   name: Code Auto-Formatting
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v6
 
-      - name: Setup CommandBox CLI
-        uses: Ortus-Solutions/setup-commandbox@v2.0.1
+  #     - name: Setup CommandBox CLI
+  #       uses: Ortus-Solutions/setup-commandbox@v2.0.1
 
-      - name: Auto-format
-        run: |
-          box install commandbox-cfformat
-          box run-script format
+  #     - name: Auto-format
+  #       run: |
+  #         box install commandbox-cfformat
+  #         box run-script format
 
-      - name: Commit Format Changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Apply cfformat changes
-          push_options: --force
+  #     - name: Commit Format Changes
+  #       uses: stefanzweifel/git-auto-commit-action@v4
+  #       with:
+  #         commit_message: Apply cfformat changes
+  #         push_options: --force
 
   ##########################################################################################
   # Release it
   ##########################################################################################
   release:
     uses: ./.github/workflows/release.yml
-    needs: [ tests, format ]
+    needs: [ tests ]
     secrets: inherit
     with:
       snapshot: true
