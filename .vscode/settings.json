@@ -1,19 +1,6 @@
 {
-	"boxlang.cfml.mappings": [
-		{
-			"logicalPath": "/coldbox",
-			"directoryPath": "./coldbox",
-			"isPhysicalDirectoryPath" :false
-		},
-		{
-			"logicalPath": "/testbox",
-			"directoryPath": "./testbox",
-			"isPhysicalDirectoryPath" :false
-		},
-		{
-			"logicalPath": "/cbsecurity",
-			"directoryPath": "./modules/cbsecurity",
-			"isPhysicalDirectoryPath" :false
-		}
-	]
+	"boxlang.mappings": {
+		"coldbox" : "./lib/coldbox",
+		"testbox" : "./lib/testbox"
+	}
 }
